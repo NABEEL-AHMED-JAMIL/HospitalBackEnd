@@ -99,7 +99,7 @@ public class PatientController {
     }
 
     //  delete thec Patient
-    @RequestMapping(value = "{mrNo}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{mrNo}",method = RequestMethod.DELETE)
     public ResponseEntity<Patient> DeletePatient(@PathVariable("mrNo") Long mrNo) {
 
         // first remove the all note than delte
@@ -118,7 +118,7 @@ public class PatientController {
     }
 
     // update the
-    @RequestMapping(value = "{mrNo}",method = RequestMethod.PUT , produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{mrNo}",method = RequestMethod.PUT , produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Patient> UpdatePatient(@PathVariable("mrNo") long mrNo, @RequestBody Patient patient) {
 
         Patient temp = this.patientRepository.findOne(mrNo);

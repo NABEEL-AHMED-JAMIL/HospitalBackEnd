@@ -48,16 +48,25 @@ public class DocterController {
     }
 
       @RequestMapping(value="/login",  method = RequestMethod.POST , produces = MediaType.APPLICATION_JSON_VALUE)
-      public ResponseEntity<Docter> logInUser(@RequestBody Docter docter  ) {
+      public ResponseEntity<Docter> logInUser(@RequestBody Docter docter) {
 
 
-          if(docter.getUserName().equals("admin") && docter.getPassword().equals("admin")){
+//          if (error != null) {
+//
+//              return new ResponseEntity<Docter>(HttpStatus.NOT_FOUND);
+//          }
+//          if (logout != null) {
+//
+//              return new ResponseEntity<Docter>(HttpStatus.OK);
+//          }
 
-            Docter docter1 = docterRepository.findOne((long) 1);
-              System.out.println(docter1.toString());
-            return new ResponseEntity<Docter>(docter1, HttpStatus.OK);
-          }
-        return new ResponseEntity<Docter>(HttpStatus.NOT_FOUND);
+//          if(docter.getUserName().equals("admin") && docter.getPassword().equals("admin")){
+//
+//            Docter docter1 = docterRepository.findOne((long) 1);
+//              System.out.println(docter1.toString());
+           return new ResponseEntity<Docter>(HttpStatus.OK);
+//          }
+       // return new ResponseEntity<Docter>(HttpStatus.NOT_FOUND);
 
     }
 

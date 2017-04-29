@@ -28,22 +28,26 @@ public class Docter  {
     //
     @Column(name = "last_name")
     private String lastName;
-    //
+    // docter have the user rol
     @Column(name = "role", nullable = false)
     private String role;
+    //
+    @OneToOne
+    private DocterType docterType;
 
     public Docter() {
         //
         super();
     }
 
-    public Docter(Long id, String userName, String password, String firstName, String lastName, String role) {
+    public Docter(Long id, String userName, String password, String firstName, String lastName, String role, DocterType docterType) {
         this.id = id;
         this.userName = userName;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.role = role;
+        this.docterType = docterType;
     }
 
     public Long getId() {
@@ -94,6 +98,14 @@ public class Docter  {
         this.role = role;
     }
 
+    public DocterType getDocterType() {
+        return docterType;
+    }
+
+    public void setDocterType(DocterType docterType) {
+        this.docterType = docterType;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -106,7 +118,8 @@ public class Docter  {
         if (!password.equals(docter.password)) return false;
         if (firstName != null ? !firstName.equals(docter.firstName) : docter.firstName != null) return false;
         if (lastName != null ? !lastName.equals(docter.lastName) : docter.lastName != null) return false;
-        return role.equals(docter.role);
+        if (!role.equals(docter.role)) return false;
+        return docterType.equals(docter.docterType);
 
     }
 
@@ -118,6 +131,7 @@ public class Docter  {
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + role.hashCode();
+        result = 31 * result + docterType.hashCode();
         return result;
     }
 
@@ -130,6 +144,7 @@ public class Docter  {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", role='" + role + '\'' +
+                ", docterType=" + docterType +
                 '}';
     }
 }

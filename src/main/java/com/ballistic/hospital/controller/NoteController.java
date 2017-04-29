@@ -19,7 +19,8 @@ import java.util.logging.Logger;
  */
 @RestController
 @RequestMapping("/note")
-public class NoteController {
+public class
+NoteController {
 
     Logger logger = Logger.getLogger(NoteController.class.getName());
     //
@@ -37,18 +38,11 @@ public class NoteController {
     @RequestMapping(value="/addNote/{patientId}",  method = RequestMethod.PUT , produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Patient> newNote(@PathVariable Long patientId, @RequestBody Note note)  {
 
-        System.out.print(note);
 
         Patient currentPatient = patientRepository.findOne(patientId);
-        System.out.print(currentPatient.toString());
         noteRepository.save(note);
-        System.out.print(note.toString());
         currentPatient.getNotes().add(note);
-        System.out.print(currentPatient.toString());
-        // update the current patient
         patientRepository.save(currentPatient);
-        // send the current patient and it's note
-        System.out.print(currentPatient.toString());
 
         return new ResponseEntity<Patient>( currentPatient , HttpStatus.OK);
 

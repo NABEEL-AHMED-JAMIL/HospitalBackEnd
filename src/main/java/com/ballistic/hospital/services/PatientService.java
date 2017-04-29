@@ -32,7 +32,7 @@ public class PatientService {
         Patient currentPatient = patientRepository.findOne(patientId);
         currentPatient.getNotes().add(note);
         // update the current patient
-        noteRepository.flush();
+
         patientRepository.save(currentPatient);
         // send the current patient and it's note
         currentPatient = patientRepository.getOne(patientId);
