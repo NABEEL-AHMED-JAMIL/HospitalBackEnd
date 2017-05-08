@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,15 +18,26 @@ import java.util.List;
 public class DocterController {
 
     // repository for user...
-      @Autowired
+    @Autowired
     private DocterRepository docterRepository;
 
     // post the new Docter
     @RequestMapping(value="/register",  method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Docter> registerUser(@RequestBody Docter docter ) {
 
-        this.docterRepository.save(docter);
-        return new ResponseEntity<Docter>(docter, HttpStatus.OK);
+        Docter docter1 = docterRepository.findByUserName(docter.getUserName());
+
+        if(docter1 != null){
+            //
+            return new ResponseEntity<Docter>(HttpStatus.NO_CONTENT);
+
+        }else{
+            docter.setRole("user");
+            // encode the passWord and decode the passWord
+            this.docterRepository.save(docter);
+            return new ResponseEntity<Docter>(docter, HttpStatus.OK);
+        }
+
 
     }
 
@@ -50,27 +58,29 @@ public class DocterController {
       @RequestMapping(value="/login",  method = RequestMethod.POST , produces = MediaType.APPLICATION_JSON_VALUE)
       public ResponseEntity<Docter> logInUser(@RequestBody Docter docter) {
 
+          Docter docter1 = docterRepository.findByUserName(docter.getUserName());
+          //System.out.print(docter1.toString());
+          if(docter1 == null ){
+              //
+              return new ResponseEntity<Docter>(HttpStatus.NOT_FOUND);
 
-//          if (error != null) {
-//
-//              return new ResponseEntity<Docter>(HttpStatus.NOT_FOUND);
-//          }
-//          if (logout != null) {
-//
-//              return new ResponseEntity<Docter>(HttpStatus.OK);
-//          }
+          }else{
 
-//          if(docter.getUserName().equals("admin") && docter.getPassword().equals("admin")){
-//
-//            Docter docter1 = docterRepository.findOne((long) 1);
-//              System.out.println(docter1.toString());
-           return new ResponseEntity<Docter>(HttpStatus.OK);
-//          }
-       // return new ResponseEntity<Docter>(HttpStatus.NOT_FOUND);
+              if(docter.getUserName().equals(docter1.getUserName()) && docter.getPassword().equals(docter1.getPassword())){
+
+                  return new ResponseEntity<Docter>(docter1,HttpStatus.OK);
+
+              }else {
+
+                  return new ResponseEntity<Docter>(HttpStatus.NO_CONTENT);
+              }
+          }
+
+
 
     }
 
-    // update and delete or not used yed.....
+
 
 
 }

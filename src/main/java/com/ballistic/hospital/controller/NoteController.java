@@ -19,8 +19,7 @@ import java.util.logging.Logger;
  */
 @RestController
 @RequestMapping("/note")
-public class
-NoteController {
+public class NoteController {
 
     Logger logger = Logger.getLogger(NoteController.class.getName());
     //

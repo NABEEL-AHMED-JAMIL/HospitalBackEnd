@@ -25,8 +25,6 @@ public class PatientController {
 
     Logger logger = Logger.getLogger(Patient.class.getName());
 
-    //
-    // get all the patient
     // repository for Patient...
     @Autowired
     private PatientRepository patientRepository;
@@ -78,17 +76,13 @@ public class PatientController {
                  notesMap.put("description", note.getDescription());
                  notesMap.put("noteType" , note.getDocterType().getType());
                  temp.add(notesMap);
-
              }
-
 
              return new ResponseEntity<List<Object>>(temp,HttpStatus.OK);
          }else{
 
              return new ResponseEntity<List<Object>>(temp,HttpStatus.OK);
-
          }
-
     }
 
     @RequestMapping(value = "/{mrNo}",method = RequestMethod.GET)
@@ -114,7 +108,6 @@ public class PatientController {
             return new ResponseEntity<Patient>(patient,HttpStatus.OK);
 
         }
-
     }
 
     // update the

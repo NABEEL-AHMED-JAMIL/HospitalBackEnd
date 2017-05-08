@@ -1,6 +1,5 @@
 package com.ballistic.hospital.entity;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import javax.persistence.*;
 
