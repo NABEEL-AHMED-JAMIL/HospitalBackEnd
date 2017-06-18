@@ -1,7 +1,5 @@
 package com.ballistic.hospital.entity;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 import javax.persistence.*;
 import java.sql.Date;
 
@@ -26,22 +24,22 @@ public class Note {
     private Date noteDate;
     //
 
-    @OneToOne(targetEntity = Docter.class)
-    private Docter docter;
+    @OneToOne(targetEntity = Doctor.class)
+    private Doctor doctor;
     //
-    @OneToOne(targetEntity = DocterType.class)
-    private DocterType docterType;
+    @OneToOne(targetEntity = DoctorType.class)
+    private DoctorType doctorType;
 
     public Note() {
         super();
     }
 
-    public Note(Long id, String description, Date noteDate, Docter docter, DocterType docterType) {
+    public Note(Long id, String description, Date noteDate, Doctor doctor, DoctorType doctorType) {
         this.id = id;
         this.description = description;
         this.noteDate = noteDate;
-        this.docter = docter;
-        this.docterType = docterType;
+        this.doctor = doctor;
+        this.doctorType = doctorType;
     }
 
     //
@@ -70,20 +68,20 @@ public class Note {
         this.noteDate = noteDate;
     }
 
-    public Docter getDocter() {
-        return docter;
+    public Doctor getDoctor() {
+        return doctor;
     }
 
-    public void setDocter(Docter docter) {
-        this.docter = docter;
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
     }
 
-    public DocterType getDocterType() {
-        return docterType;
+    public DoctorType getDoctorType() {
+        return doctorType;
     }
 
-    public void setDocterType(DocterType docterType) {
-        this.docterType = docterType;
+    public void setDoctorType(DoctorType doctorType) {
+        this.doctorType = doctorType;
     }
 
     @Override
@@ -95,7 +93,7 @@ public class Note {
 
         if (description != null ? !description.equals(note.description) : note.description != null) return false;
         if (noteDate != null ? !noteDate.equals(note.noteDate) : note.noteDate != null) return false;
-        return docter != null ? docter.equals(note.docter) : note.docter == null;
+        return doctor != null ? doctor.equals(note.doctor) : note.doctor == null;
 
     }
 
@@ -103,7 +101,7 @@ public class Note {
     public int hashCode() {
         int result = description != null ? description.hashCode() : 0;
         result = 31 * result + (noteDate != null ? noteDate.hashCode() : 0);
-        result = 31 * result + (docter != null ? docter.hashCode() : 0);
+        result = 31 * result + (doctor != null ? doctor.hashCode() : 0);
         return result;
     }
 
@@ -113,8 +111,8 @@ public class Note {
                 "id=" + id +
                 ", description='" + description + '\'' +
                 ", noteDate=" + noteDate +
-                ", docter=" + docter +
-                ", docterType=" + docterType +
+                ", doctor=" + doctor +
+                ", doctorType=" + doctorType +
                 '}';
     }
 }

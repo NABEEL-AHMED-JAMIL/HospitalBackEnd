@@ -2,14 +2,15 @@ package com.ballistic.hospital.controller;
 
 import com.ballistic.hospital.entity.Note;
 import com.ballistic.hospital.entity.Patient;
-import com.ballistic.hospital.repository.DocterRepository;
-import com.ballistic.hospital.repository.DocterTypeRepository;
+import com.ballistic.hospital.repository.DoctorRepository;
+import com.ballistic.hospital.repository.DoctorTypeRepository;
 import com.ballistic.hospital.repository.NoteRepository;
 import com.ballistic.hospital.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.logging.Logger;
@@ -29,12 +30,13 @@ public class NoteController {
     @Autowired
     private PatientRepository patientRepository;
     @Autowired
-    private DocterRepository docterRepository;
+    private DoctorRepository doctorRepository;
     @Autowired
-    private DocterTypeRepository docterTypeRepository;
+    private DoctorTypeRepository doctorTypeRepository;
 
     // post the new Note
     @RequestMapping(value="/addNote/{patientId}",  method = RequestMethod.PUT , produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
     public ResponseEntity<Patient> newNote(@PathVariable Long patientId, @RequestBody Note note)  {
 
 
@@ -50,6 +52,7 @@ public class NoteController {
 
     // get the All the Note
     @RequestMapping(value="/getAllNotes", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
     public ResponseEntity<List<Note>> getAllNotes() {
 
         List<Note> notes_list = noteRepository.findAll();
@@ -62,6 +65,7 @@ public class NoteController {
 
     //  delete thec note
     @RequestMapping(value = "delete/{id}",method = RequestMethod.DELETE)
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
     public ResponseEntity<Note> DeleteNote(@PathVariable("id") Long id) {
 
         Note note = this.noteRepository.findOne(id);
@@ -71,14 +75,14 @@ public class NoteController {
 
     // update the note
     @RequestMapping(value = "{id}",method = RequestMethod.PUT)
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
     public ResponseEntity<Note> UpdateNote(@PathVariable("id") Long id,@RequestBody Note note) {
 
         //
-
         Note currentNote = this.noteRepository.findOne(id);
         //
         currentNote.setNoteDate(note.getNoteDate());
-        currentNote.setDocterType(note.getDocterType());
+        currentNote.setDoctorType(note.getDoctorType());
         currentNote.setDescription(note.getDescription());
 
         this.noteRepository.save(currentNote);

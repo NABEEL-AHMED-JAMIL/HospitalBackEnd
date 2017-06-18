@@ -2,13 +2,14 @@ package com.ballistic.hospital.controller;
 
 import com.ballistic.hospital.entity.Note;
 import com.ballistic.hospital.entity.Patient;
-import com.ballistic.hospital.repository.DocterTypeRepository;
+import com.ballistic.hospital.repository.DoctorTypeRepository;
 import com.ballistic.hospital.repository.NoteRepository;
 import com.ballistic.hospital.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -29,12 +30,13 @@ public class PatientController {
     @Autowired
     private PatientRepository patientRepository;
     @Autowired
-    private DocterTypeRepository docterTypeRepository;
+    private DoctorTypeRepository doctorTypeRepository;
     //
     @Autowired
     private NoteRepository noteRepository;
     // post the new Note
     @RequestMapping(value="/addPatient",  method = RequestMethod.POST)
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
     public ResponseEntity<Patient> newPatient(@RequestBody Patient patient ) {
         logger.info("addPatient");
         this.patientRepository.save(patient);
@@ -44,6 +46,7 @@ public class PatientController {
     // this is use
     // get the All the Patient
     @RequestMapping(value="/getAllPatient", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
     public ResponseEntity<List<Patient>> getAllPatients() {
         logger.info("getAllPatient");
         List<Patient> patientList = patientRepository.findAll();
@@ -52,9 +55,10 @@ public class PatientController {
     }
 
 
-    //  Docter Name , Note Type , Note , Note Date
+    //  Doctor Name , Note Type , Note , Note Date
     // get the All patient note by mr_no
-     @RequestMapping(value = "notes/{mrNo}",method = RequestMethod.GET)
+    @RequestMapping(value = "notes/{mrNo}",method = RequestMethod.GET)
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
     public ResponseEntity<List<Object>> getAllPatientNote(@PathVariable("mrNo") Long mrNo) {
          // get the patient
          Patient patient = patientRepository.findOne(mrNo);
@@ -72,9 +76,9 @@ public class PatientController {
                  notesMap.put("patientName" , patient.getName());
                  notesMap.put("noteId" , note.getId());
                  notesMap.put("noteDate" , note.getNoteDate());
-                 notesMap.put("docterName" , note.getDocter().getUserName());
+                 notesMap.put("docterName" , note.getDoctor().getUserName());
                  notesMap.put("description", note.getDescription());
-                 notesMap.put("noteType" , note.getDocterType().getType());
+                 notesMap.put("noteType" , note.getDoctorType().getType());
                  temp.add(notesMap);
              }
 
@@ -86,6 +90,7 @@ public class PatientController {
     }
 
     @RequestMapping(value = "/{mrNo}",method = RequestMethod.GET)
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
     public ResponseEntity<Patient> getPatient(@PathVariable("mrNo") Long mrNo) {
         logger.info("getPatient");
         Patient patient = patientRepository.findOne(mrNo);
@@ -94,6 +99,7 @@ public class PatientController {
 
     //  delete thec Patient
     @RequestMapping(value = "/{mrNo}",method = RequestMethod.DELETE)
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
     public ResponseEntity<Patient> DeletePatient(@PathVariable("mrNo") Long mrNo) {
 
         // first remove the all note than delte
@@ -112,6 +118,7 @@ public class PatientController {
 
     // update the
     @RequestMapping(value = "/{mrNo}",method = RequestMethod.PUT , produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
     public ResponseEntity<Patient> UpdatePatient(@PathVariable("mrNo") long mrNo, @RequestBody Patient patient) {
 
         Patient temp = this.patientRepository.findOne(mrNo);

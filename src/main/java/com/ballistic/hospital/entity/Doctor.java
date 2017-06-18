@@ -7,16 +7,14 @@ import javax.persistence.*;
  * Created by Nabeel on 4/15/2017.
  */
 @Entity
-@Table(name = "docter")
-
-
-public class Docter  {
+@Table(name = "doctor")
+public class Doctor {
     //
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
     //
-    @Column(name = "docter_name" , unique=true, nullable=false)
+    @Column(name = "doctor_name" , unique=true, nullable=false)
     private String userName;
     //
     @Column(name = "password" , nullable = false)
@@ -27,26 +25,26 @@ public class Docter  {
     //
     @Column(name = "last_name")
     private String lastName;
-    // docter have the user rol
+    // doctor have the user rol
     @Column(name = "role", nullable = false)
     private String role;
     //
     @OneToOne
-    private DocterType docterType;
+    private DoctorType doctorType;
 
-    public Docter() {
+    public Doctor() {
         //
         super();
     }
 
-    public Docter(Long id, String userName, String password, String firstName, String lastName, String role, DocterType docterType) {
+    public Doctor(Long id, String userName, String password, String firstName, String lastName, String role, DoctorType doctorType) {
         this.id = id;
         this.userName = userName;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.role = role;
-        this.docterType = docterType;
+        this.doctorType = doctorType;
     }
 
     public Long getId() {
@@ -97,12 +95,12 @@ public class Docter  {
         this.role = role;
     }
 
-    public DocterType getDocterType() {
-        return docterType;
+    public DoctorType getDoctorType() {
+        return doctorType;
     }
 
-    public void setDocterType(DocterType docterType) {
-        this.docterType = docterType;
+    public void setDoctorType(DoctorType doctorType) {
+        this.doctorType = doctorType;
     }
 
     @Override
@@ -110,15 +108,15 @@ public class Docter  {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Docter docter = (Docter) o;
+        Doctor doctor = (Doctor) o;
 
-        if (!id.equals(docter.id)) return false;
-        if (!userName.equals(docter.userName)) return false;
-        if (!password.equals(docter.password)) return false;
-        if (firstName != null ? !firstName.equals(docter.firstName) : docter.firstName != null) return false;
-        if (lastName != null ? !lastName.equals(docter.lastName) : docter.lastName != null) return false;
-        if (!role.equals(docter.role)) return false;
-        return docterType.equals(docter.docterType);
+        if (!id.equals(doctor.id)) return false;
+        if (!userName.equals(doctor.userName)) return false;
+        if (!password.equals(doctor.password)) return false;
+        if (firstName != null ? !firstName.equals(doctor.firstName) : doctor.firstName != null) return false;
+        if (lastName != null ? !lastName.equals(doctor.lastName) : doctor.lastName != null) return false;
+        if (!role.equals(doctor.role)) return false;
+        return doctorType.equals(doctor.doctorType);
 
     }
 
@@ -130,20 +128,20 @@ public class Docter  {
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + role.hashCode();
-        result = 31 * result + docterType.hashCode();
+        result = 31 * result + doctorType.hashCode();
         return result;
     }
 
     @Override
     public String toString() {
-        return "Docter{" +
+        return "Doctor{" +
                 "id=" + id +
                 ", userName='" + userName + '\'' +
                 ", password='" + password + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", role='" + role + '\'' +
-                ", docterType=" + docterType +
+                ", doctorType=" + doctorType +
                 '}';
     }
 }

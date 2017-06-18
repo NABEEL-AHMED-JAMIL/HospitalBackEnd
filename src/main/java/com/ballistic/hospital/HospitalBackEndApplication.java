@@ -11,7 +11,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "com.ballistic.hospital")
-
 public class HospitalBackEndApplication{
 
 	public static void main(String[] args) {

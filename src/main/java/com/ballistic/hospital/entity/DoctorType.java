@@ -9,9 +9,9 @@ import javax.persistence.*;
  */
 
 @Entity
-@Table(name = "docterType")
+@Table(name = "doctorType")
 
-public class DocterType {
+public class DoctorType {
 
 
     //
@@ -23,11 +23,11 @@ public class DocterType {
     private String type;
 
     //
-    public DocterType() {
+    public DoctorType() {
         super();
     }
 
-    public DocterType(Long id, String type) { this.id = id; this.type = type; }
+    public DoctorType(Long id, String type) { this.id = id; this.type = type; }
 
     public Long getId() { return id; }
 
@@ -39,7 +39,7 @@ public class DocterType {
 
     @Override
     public String toString() {
-        return "DocterType{" +
+        return "DoctorType{" +
                 "id=" + id +
                 ", type='" + type + '\'' +
                 '}';

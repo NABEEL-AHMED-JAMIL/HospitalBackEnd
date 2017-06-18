@@ -1,4 +1,4 @@
-package com.ballistic.hospital;
+package com.ballistic.hospital.config;
 
 
 import org.springframework.context.annotation.Configuration;
