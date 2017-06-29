@@ -21,37 +21,12 @@ import java.util.List;
 @RequestMapping("/doctor")
 public class DoctorController {
 
-    // repository for user...
-    @Autowired
-    private DoctorRepository doctorRepository;
-
-    // post the new doctor
-    @RequestMapping(value="/register",  method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
-    public ResponseEntity<Doctor> registerUser(@RequestBody Doctor doctor ) {
-
-        Doctor doctor1 = doctorRepository.findByUserName(doctor.getUserName());
-
-        if(doctor1 != null){
-            //
-            return new ResponseEntity<Doctor>(HttpStatus.NO_CONTENT);
-
-        }else{
-            doctor.setRole("USER");
-            // encode the passWord and decode the passWord
-            this.doctorRepository.save(doctor);
-            return new ResponseEntity<Doctor>(doctor, HttpStatus.OK);
-        }
-
-
-    }
-
     //-------------------Retrieve All Doctor's----------------
     @RequestMapping(value = "/doctors" ,method = RequestMethod.GET)
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
     public ResponseEntity<List<Doctor>> listAlldoctor() {
 
-       List<Doctor> doctorList = doctorRepository.findAll();
+        List<Doctor> doctorList = doctorRepository.findAll();
         if(doctorList.isEmpty()){
 
             return new ResponseEntity<List<Doctor>>(HttpStatus.NO_CONTENT);
@@ -61,33 +36,54 @@ public class DoctorController {
         return new ResponseEntity<List<Doctor>>(doctorList, HttpStatus.OK);
     }
 
-      @RequestMapping(value="/login",  method = RequestMethod.POST)
-      @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
-      public ResponseEntity<Doctor> logInUser(@RequestBody Doctor doctor) {
+    // repository for user...
+    @Autowired
+    private DoctorRepository doctorRepository;
 
-          Doctor doctor1 = doctorRepository.findByUserName(doctor.getUserName());
-          //System.out.print(doctor1.toString());
-          if(doctor1 == null ){
-              //
-              return new ResponseEntity<Doctor>(HttpStatus.NOT_FOUND);
-
-          }else{
-
-              if(doctor.getUserName().equals(doctor1.getUserName()) && doctor.getPassword().equals(doctor1.getPassword())){
-
-                  return new ResponseEntity<Doctor>(doctor1,HttpStatus.OK);
-
-              }else {
-
-                  return new ResponseEntity<Doctor>(HttpStatus.NO_CONTENT);
-              }
-          }
-
-
-
-    }
-
+//    // post the new doctor
+//    @RequestMapping(value="/register",  method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
+//    public ResponseEntity<Doctor> registerUser(@RequestBody Doctor doctor ) {
+//
+//        Doctor doctor1 = doctorRepository.findByUserName(doctor.getUserName());
+//
+//        if(doctor1 != null){
+//            //
+//            return new ResponseEntity<Doctor>(HttpStatus.NO_CONTENT);
+//
+//        }else{
+//            doctor.setRole("USER");
+//            // encode the passWord and decode the passWord
+//            this.doctorRepository.save(doctor);
+//            return new ResponseEntity<Doctor>(doctor, HttpStatus.OK);
+//        }
+//
+//
+//    }
 
 
 
+//      @RequestMapping(value="/login",  method = RequestMethod.POST)
+//      @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
+//      public ResponseEntity<Doctor> logInUser(@RequestBody Doctor doctor) {
+//
+//          Doctor doctor1 = doctorRepository.findByUserName(doctor.getUserName());
+//          //System.out.print(doctor1.toString());
+//          if(doctor1 == null ){
+//              //
+//              return new ResponseEntity<Doctor>(HttpStatus.NOT_FOUND);
+//
+//          }else{
+//
+//              if(doctor.getUserName().equals(doctor1.getUserName()) && doctor.getPassword().equals(doctor1.getPassword())){
+//
+//                  return new ResponseEntity<Doctor>(doctor1,HttpStatus.OK);
+//
+//              }else {
+//
+//                  return new ResponseEntity<Doctor>(HttpStatus.NO_CONTENT);
+//              }
+//          }
+//    }
+//
 }

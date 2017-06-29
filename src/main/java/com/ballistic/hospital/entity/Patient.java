@@ -16,25 +16,20 @@ import java.util.List;
 @Table(name = "patient")
 public class Patient{
 
-
     @Id
     @Column(name = "mr_no")
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long mrNo;
-    //
     @Column(name = "name")
     private String name;
-    //
     @Column(name = "phone")
     private String phone;
-    //
     @JsonManagedReference
     @OneToMany( targetEntity=Note.class)
     @JoinColumn(name="mr_no", referencedColumnName = "mr_no")
     private List<Note> notes;
-    //
 
-    //
+
     public Patient() {}
 
     public Patient( Long mrNo, String name, String phone) {
@@ -85,4 +80,5 @@ public class Patient{
                 ", notes=" + notes +
                 '}';
     }
+
 }

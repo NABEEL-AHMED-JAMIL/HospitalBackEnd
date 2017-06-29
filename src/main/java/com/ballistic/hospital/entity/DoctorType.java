@@ -10,19 +10,15 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "doctorType")
-
 public class DoctorType {
 
-
-    //
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO)
     private Long id;
-    //
     @Column(name = "type")
     private String type;
 
-    //
+
     public DoctorType() {
         super();
     }

@@ -25,13 +25,12 @@ import java.util.logging.Logger;
 public class PatientController {
 
     Logger logger = Logger.getLogger(Patient.class.getName());
-
     // repository for Patient...
     @Autowired
     private PatientRepository patientRepository;
     @Autowired
     private DoctorTypeRepository doctorTypeRepository;
-    //
+
     @Autowired
     private NoteRepository noteRepository;
     // post the new Note
@@ -43,7 +42,7 @@ public class PatientController {
         return new ResponseEntity<Patient>(patient, HttpStatus.OK);
 
     }
-    // this is use
+
     // get the All the Patient
     @RequestMapping(value="/getAllPatient", method = RequestMethod.GET)
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
@@ -60,15 +59,13 @@ public class PatientController {
     @RequestMapping(value = "notes/{mrNo}",method = RequestMethod.GET)
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
     public ResponseEntity<List<Object>> getAllPatientNote(@PathVariable("mrNo") Long mrNo) {
-         // get the patient
+
          Patient patient = patientRepository.findOne(mrNo);
-         // get the all notes of the patient
          List<Note> noteList = patient.getNotes();
          // used this to forward the all note after getting few info
          List<Object> temp = new  ArrayList<Object>();
          if(noteList != null){
-             // if the note list is not empty then this will work
-             //
+
              for (Note note: noteList) {
                  // parse the data and then send into the new json from array to the frontend
                  Map notesMap = new HashMap();
@@ -130,10 +127,7 @@ public class PatientController {
             temp.setPhone(patient.getPhone());
             this.patientRepository.save(temp);
             return new ResponseEntity<Patient>(patient,HttpStatus.OK);
-
         }
-
     }
-
 
 }

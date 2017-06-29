@@ -8,27 +8,21 @@ import java.sql.Date;
  */
 @Entity
 @Table(name = "note")
-
 public class Note {
 
-    //
+
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
-    //
-
     @Column(name = "note" ,columnDefinition = "longtext")
     private String description;
-    //
     @Column(name = "note_date")
     private Date noteDate;
-    //
-
     @OneToOne(targetEntity = Doctor.class)
     private Doctor doctor;
-    //
     @OneToOne(targetEntity = DoctorType.class)
     private DoctorType doctorType;
+
 
     public Note() {
         super();
@@ -42,7 +36,6 @@ public class Note {
         this.doctorType = doctorType;
     }
 
-    //
 
     public Long getId() {
         return id;
