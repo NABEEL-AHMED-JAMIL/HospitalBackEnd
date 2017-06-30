@@ -11,7 +11,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by Lycus 01 on 6/29/2017.
+ * Created by Ballistic on 6/29/2017.
  */
 public class DoctorDetailDTO implements UserDetails {
 

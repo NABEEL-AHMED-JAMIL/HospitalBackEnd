@@ -19,18 +19,18 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @ComponentScan(basePackages = "com.ballistic.hospital")
 public class HospitalBackEndApplication implements UserDetailsService {
 
+	@Autowired
+	private DoctorRepository doctorRepository;
+
 	public static void main(String[] args) {
 
 			SpringApplication.run(HospitalBackEndApplication.class, args);
 	}
-
-
-	@Autowired
-	private DoctorRepository doctorRepository;
 
 	@Override
 	@Transactional(readOnly = true)
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		return new DoctorDetailDTO(doctorRepository.findByUserName(email));
 	}
+
 }

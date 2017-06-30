@@ -21,24 +21,22 @@ import java.util.List;
 @RequestMapping("/doctor")
 public class DoctorController {
 
-    //-------------------Retrieve All Doctor's----------------
+    @Autowired
+    private DoctorRepository doctorRepository;
+
+
     @RequestMapping(value = "/doctors" ,method = RequestMethod.GET)
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
-    public ResponseEntity<List<Doctor>> listAlldoctor() {
+    public ResponseEntity<List<Doctor>> listAllDoctor() {
 
         List<Doctor> doctorList = doctorRepository.findAll();
         if(doctorList.isEmpty()){
-
             return new ResponseEntity<List<Doctor>>(HttpStatus.NO_CONTENT);
-            //You many decide to return HttpStatus.NOT_FOUND
         }
-
         return new ResponseEntity<List<Doctor>>(doctorList, HttpStatus.OK);
     }
 
-    // repository for user...
-    @Autowired
-    private DoctorRepository doctorRepository;
+
 
 //    // post the new doctor
 //    @RequestMapping(value="/register",  method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)

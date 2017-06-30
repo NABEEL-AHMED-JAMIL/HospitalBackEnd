@@ -23,8 +23,7 @@ import java.util.logging.Logger;
 public class NoteController {
 
     Logger logger = Logger.getLogger(NoteController.class.getName());
-    //
-    // repository for Note...
+
     @Autowired
     private NoteRepository noteRepository;
     @Autowired
@@ -34,62 +33,53 @@ public class NoteController {
     @Autowired
     private DoctorTypeRepository doctorTypeRepository;
 
-    // post the new Note
-    @RequestMapping(value="/addNote/{patientId}",  method = RequestMethod.PUT , produces = MediaType.APPLICATION_JSON_VALUE)
+
+    @RequestMapping(value="/addNote/{patientId}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
     public ResponseEntity<Patient> newNote(@PathVariable Long patientId, @RequestBody Note note)  {
-
 
         Patient currentPatient = patientRepository.findOne(patientId);
         noteRepository.save(note);
         currentPatient.getNotes().add(note);
         patientRepository.save(currentPatient);
-
         return new ResponseEntity<Patient>( currentPatient , HttpStatus.OK);
 
     }
 
 
-    // get the All the Note
     @RequestMapping(value="/getAllNotes", method = RequestMethod.GET)
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
     public ResponseEntity<List<Note>> getAllNotes() {
 
         List<Note> notes_list = noteRepository.findAll();
-        
         if(notes_list.isEmpty()){
             return new ResponseEntity<List<Note>>(notes_list,HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<List<Note>>(notes_list,HttpStatus.OK);
     }
 
-    //  delete thec note
     @RequestMapping(value = "delete/{id}",method = RequestMethod.DELETE)
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
-    public ResponseEntity<Note> DeleteNote(@PathVariable("id") Long id) {
+    public ResponseEntity<Note> deleteNote(@PathVariable("id") Long id) {
 
         Note note = this.noteRepository.findOne(id);
         this.noteRepository.delete(note);
         return new ResponseEntity<Note>(note,HttpStatus.OK);
     }
 
-    // update the note
     @RequestMapping(value = "{id}",method = RequestMethod.PUT)
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
-    public ResponseEntity<Note> UpdateNote(@PathVariable("id") Long id,@RequestBody Note note) {
+    public ResponseEntity<Note> updateNote(@PathVariable("id") Long id,@RequestBody Note note) {
 
-        //
         Note currentNote = this.noteRepository.findOne(id);
-        //
         currentNote.setNoteDate(note.getNoteDate());
         currentNote.setDoctorType(note.getDoctorType());
         currentNote.setDescription(note.getDescription());
-
         this.noteRepository.save(currentNote);
         System.out.print(currentNote);
 
         return new ResponseEntity<Note>(currentNote,HttpStatus.OK);
-    }
 
+    }
 
 }

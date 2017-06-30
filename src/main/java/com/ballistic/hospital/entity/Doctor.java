@@ -22,7 +22,6 @@ public class Doctor {
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
-    // doctor have the user rol
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Set<Role> roles;

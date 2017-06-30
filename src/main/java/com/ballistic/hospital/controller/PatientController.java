@@ -25,15 +25,14 @@ import java.util.logging.Logger;
 public class PatientController {
 
     Logger logger = Logger.getLogger(Patient.class.getName());
-    // repository for Patient...
     @Autowired
     private PatientRepository patientRepository;
     @Autowired
     private DoctorTypeRepository doctorTypeRepository;
-
     @Autowired
     private NoteRepository noteRepository;
-    // post the new Note
+
+
     @RequestMapping(value="/addPatient",  method = RequestMethod.POST)
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
     public ResponseEntity<Patient> newPatient(@RequestBody Patient patient ) {
@@ -43,7 +42,6 @@ public class PatientController {
 
     }
 
-    // get the All the Patient
     @RequestMapping(value="/getAllPatient", method = RequestMethod.GET)
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
     public ResponseEntity<List<Patient>> getAllPatients() {
@@ -54,37 +52,32 @@ public class PatientController {
     }
 
 
-    //  Doctor Name , Note Type , Note , Note Date
-    // get the All patient note by mr_no
     @RequestMapping(value = "notes/{mrNo}",method = RequestMethod.GET)
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
     public ResponseEntity<List<Object>> getAllPatientNote(@PathVariable("mrNo") Long mrNo) {
 
          Patient patient = patientRepository.findOne(mrNo);
          List<Note> noteList = patient.getNotes();
-         // used this to forward the all note after getting few info
          List<Object> temp = new  ArrayList<Object>();
          if(noteList != null){
 
              for (Note note: noteList) {
-                 // parse the data and then send into the new json from array to the frontend
                  Map notesMap = new HashMap();
                  notesMap.put("patientMrNo" , patient.getMrNo());
                  notesMap.put("patientName" , patient.getName());
                  notesMap.put("noteId" , note.getId());
                  notesMap.put("noteDate" , note.getNoteDate());
-                 notesMap.put("docterName" , note.getDoctor().getUserName());
+                 notesMap.put("doctorName" , note.getDoctor().getUserName());
                  notesMap.put("description", note.getDescription());
                  notesMap.put("noteType" , note.getDoctorType().getType());
                  temp.add(notesMap);
              }
-
              return new ResponseEntity<List<Object>>(temp,HttpStatus.OK);
          }else{
-
              return new ResponseEntity<List<Object>>(temp,HttpStatus.OK);
          }
     }
+
 
     @RequestMapping(value = "/{mrNo}",method = RequestMethod.GET)
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
@@ -94,18 +87,15 @@ public class PatientController {
         return new ResponseEntity<Patient>(patient,HttpStatus.OK);
     }
 
-    //  delete thec Patient
+
     @RequestMapping(value = "/{mrNo}",method = RequestMethod.DELETE)
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
-    public ResponseEntity<Patient> DeletePatient(@PathVariable("mrNo") Long mrNo) {
-
-        // first remove the all note than delte
+    public ResponseEntity<Patient> deletePatient(@PathVariable("mrNo") Long mrNo) {
 
         Patient patient = this.patientRepository.findOne(mrNo);
         if(patient == null){
             return new ResponseEntity<Patient>(patient,HttpStatus.OK);
         }else {
-
             this.noteRepository.delete(patient.getNotes());
             this.patientRepository.delete(mrNo);
             return new ResponseEntity<Patient>(patient,HttpStatus.OK);
@@ -113,13 +103,12 @@ public class PatientController {
         }
     }
 
-    // update the
+
     @RequestMapping(value = "/{mrNo}",method = RequestMethod.PUT , produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
-    public ResponseEntity<Patient> UpdatePatient(@PathVariable("mrNo") long mrNo, @RequestBody Patient patient) {
+    public ResponseEntity<Patient> updatePatient(@PathVariable("mrNo") long mrNo, @RequestBody Patient patient) {
 
         Patient temp = this.patientRepository.findOne(mrNo);
-        //
         if(temp == null){
             return new ResponseEntity("Unable to upate. User with id " + mrNo + " not found.", HttpStatus.NOT_FOUND);
         }else{
