@@ -22,14 +22,20 @@ public class DoctorDetailDTO implements UserDetails {
     public DoctorDetailDTO(Doctor byDoctorname) {
         this.userName = byDoctorname.getUserName();
         this.password = byDoctorname.getPassword();
+        this.authorities = translate(byDoctorname.getRoles());
+
+
+    }
+
+    private Collection<? extends GrantedAuthority> translate(Set<Role> roles) {
 
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-        for (Role role : byDoctorname.getRoles()) {
+        for (Role role : roles) {
             grantedAuthorities.add(new SimpleGrantedAuthority(role.getRole().toUpperCase()));
         }
-        this.authorities = grantedAuthorities;
 
-        return;
+        return grantedAuthorities;
+
     }
 
     @Override

@@ -1,12 +1,14 @@
 package com.ballistic.hospital;
 
 import com.ballistic.hospital.dto.DoctorDetailDTO;
+import com.ballistic.hospital.entity.Doctor;
 import com.ballistic.hospital.repository.DoctorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -29,8 +31,14 @@ public class HospitalBackEndApplication implements UserDetailsService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		return new DoctorDetailDTO(doctorRepository.findByUserName(email));
+	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+		Doctor doctor = doctorRepository.findByUserName(userName);
+		if(doctor != null) {
+			return new DoctorDetailDTO(doctor);
+		}else {
+			throw new UsernameNotFoundException("Could not find the user"+ userName);
+		}
+
 	}
 
 }
