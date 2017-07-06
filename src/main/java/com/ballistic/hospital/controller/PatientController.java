@@ -13,7 +13,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.logging.Logger;
 
 
 /**
@@ -24,7 +23,6 @@ import java.util.logging.Logger;
 @RequestMapping("/patient")
 public class PatientController {
 
-    Logger logger = Logger.getLogger(Patient.class.getName());
     @Autowired
     private PatientRepository patientRepository;
     @Autowired
@@ -34,18 +32,16 @@ public class PatientController {
 
 
     @RequestMapping(value="/addPatient",  method = RequestMethod.POST)
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
+    @PreAuthorize("hasAnyRole(\"ADMIN\",\"DBA\",\"USER\")")
     public ResponseEntity<Patient> newPatient(@RequestBody Patient patient ) {
-        logger.info("addPatient");
         this.patientRepository.save(patient);
         return new ResponseEntity<Patient>(patient, HttpStatus.OK);
 
     }
 
     @RequestMapping(value="/getAllPatient", method = RequestMethod.GET)
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
+    @PreAuthorize("hasAnyRole(\"ADMIN\",\"DBA\",\"USER\")")
     public ResponseEntity<List<Patient>> getAllPatients() {
-        logger.info("getAllPatient");
         List<Patient> patientList = patientRepository.findAll();
 
         return new ResponseEntity<List<Patient>>(patientList,HttpStatus.OK);
@@ -53,7 +49,7 @@ public class PatientController {
 
 
     @RequestMapping(value = "notes/{mrNo}",method = RequestMethod.GET)
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
+    @PreAuthorize("hasAnyRole(\"ADMIN\",\"DBA\",\"USER\")")
     public ResponseEntity<List<Object>> getAllPatientNote(@PathVariable("mrNo") Long mrNo) {
 
          Patient patient = patientRepository.findOne(mrNo);
@@ -80,16 +76,15 @@ public class PatientController {
 
 
     @RequestMapping(value = "/{mrNo}",method = RequestMethod.GET)
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
+    @PreAuthorize("hasAnyRole(\"ADMIN\",\"DBA\",\"USER\")")
     public ResponseEntity<Patient> getPatient(@PathVariable("mrNo") Long mrNo) {
-        logger.info("getPatient");
+
         Patient patient = patientRepository.findOne(mrNo);
         return new ResponseEntity<Patient>(patient,HttpStatus.OK);
     }
 
 
     @RequestMapping(value = "/{mrNo}",method = RequestMethod.DELETE)
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
     public ResponseEntity<Patient> deletePatient(@PathVariable("mrNo") Long mrNo) {
 
         Patient patient = this.patientRepository.findOne(mrNo);
@@ -105,7 +100,7 @@ public class PatientController {
 
 
     @RequestMapping(value = "/{mrNo}",method = RequestMethod.PUT , produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
+    @PreAuthorize("hasAnyRole(\"ADMIN\",\"DBA\",\"USER\")")
     public ResponseEntity<Patient> updatePatient(@PathVariable("mrNo") long mrNo, @RequestBody Patient patient) {
 
         Patient temp = this.patientRepository.findOne(mrNo);

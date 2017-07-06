@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import java.util.logging.Logger;
+
 
 /**
  * Created by Nabeel on 4/16/2017.
@@ -21,8 +21,6 @@ import java.util.logging.Logger;
 @RestController
 @RequestMapping("/note")
 public class NoteController {
-
-    Logger logger = Logger.getLogger(NoteController.class.getName());
 
     @Autowired
     private NoteRepository noteRepository;
@@ -35,7 +33,7 @@ public class NoteController {
 
 
     @RequestMapping(value="/addNote/{patientId}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
+    @PreAuthorize("hasAnyRole(\"ADMIN\",\"DBA\",\"USER\")")
     public ResponseEntity<Patient> newNote(@PathVariable Long patientId, @RequestBody Note note)  {
 
         Patient currentPatient = patientRepository.findOne(patientId);
@@ -48,8 +46,8 @@ public class NoteController {
 
 
     @RequestMapping(value="/getAllNotes", method = RequestMethod.GET)
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
-    public ResponseEntity<List<Note>> getAllNotes() {
+    @PreAuthorize("hasAnyRole(\"ADMIN\",\"DBA\",\"USER\")")
+    ResponseEntity<List<Note>> getAllNotes() {
 
         List<Note> notes_list = noteRepository.findAll();
         if(notes_list.isEmpty()){
@@ -59,7 +57,7 @@ public class NoteController {
     }
 
     @RequestMapping(value = "delete/{id}",method = RequestMethod.DELETE)
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
+    @PreAuthorize("hasAnyRole(\"ADMIN\",\"DBA\",\"USER\")")
     public ResponseEntity<Note> deleteNote(@PathVariable("id") Long id) {
 
         Note note = this.noteRepository.findOne(id);
@@ -68,7 +66,7 @@ public class NoteController {
     }
 
     @RequestMapping(value = "{id}",method = RequestMethod.PUT)
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
+    @PreAuthorize("hasAnyRole(\"ADMIN\",\"DBA\",\"USER\")")
     public ResponseEntity<Note> updateNote(@PathVariable("id") Long id,@RequestBody Note note) {
 
         Note currentNote = this.noteRepository.findOne(id);
