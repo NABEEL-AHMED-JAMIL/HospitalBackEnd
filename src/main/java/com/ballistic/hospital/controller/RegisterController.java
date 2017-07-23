@@ -23,17 +23,19 @@ public class RegisterController {
     private DoctorRepository doctorRepository;
 
     // post the new doctor
+    // check the email or user name exist or not
+    // if not than register other wiser no
     @RequestMapping(value="/register",  method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Doctor> registerUser(@RequestBody Doctor doctor ) {
 
-        Doctor doctor1 = doctorRepository.findByUserName(doctor.getUserName());
+        Doctor doctor1 = doctorRepository.findByUsername(doctor.getUsername());
         if(doctor1 != null){
             // already exist
             return new ResponseEntity<Doctor>(HttpStatus.NO_CONTENT);
-
         }else{
-
-            // list of role come from the front-end
+//            if(doctor1.getEmail().equals(doctorRepository.findByEmail(doctor.getEmail()))){
+//
+//            }
             this.doctorRepository.save(doctor);
             return new ResponseEntity<Doctor>(doctor1, HttpStatus.OK);
         }

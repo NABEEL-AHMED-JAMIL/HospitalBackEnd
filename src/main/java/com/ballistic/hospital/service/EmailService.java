@@ -3,16 +3,17 @@ package com.ballistic.hospital.service;
 import com.ballistic.hospital.entity.Doctor;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
+//import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+//import java.io.File;
+//import java.io.IOException;
+//import java.util.ArrayList;
+//import java.util.List;
+//import java.util.Scanner;
 
 /**
  * Created by Lycus 01 on 7/23/2017.
@@ -24,6 +25,8 @@ public class EmailService {
     private JavaMailSender sender;
     @Autowired
     private Util util;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public void sendSimpleMessage(
             String to, String subject, Doctor doctor) {
@@ -44,7 +47,20 @@ public class EmailService {
         }
     }
 
-//    public String composeMessage(){
+       public String message(Doctor doctor){
+           String message = "Dear, "+doctor.getFirstname()+" "+doctor.getLastname()+"\n" +
+                   "Welcome!\n" +
+                   "Thank you for becoming a registered member of:\n" +
+                   "MEDICSi Patient Portal\n" +
+                   "Check out these storage related information.    \n" +
+                   "**** UserName:"+ doctor.getUsername() +" and PassWord:"+ passwordEncoder.encode(doctor.getPassword()) + " and Mail account: " + doctor.getEmail() + "****.\n" +
+                   "Thanks!\n" +
+                   "    Your medicsi786@gmail.com";
+           System.out.println(message.toString());
+           return message;
+       }
+
+    //    public String composeMessage(){
 //        String message = "";
 //        for (String mess: readingFile()) {
 //            message += mess+"\n";
@@ -81,15 +97,4 @@ public class EmailService {
 //            return null;
 //        }
 //    }
-       public String message(Doctor doctor){
-           String message = "Dear Nabeel Ahmed,\n" +
-                   "Welcome!\n" +
-                   "Thank you for becoming a registered member of:\n" +
-                   "MEDICSi Patient Portal\n" +
-                   "Check out these storage related information.    \n" +
-                   "**** UserName:"+ doctor.getUserName() +" and PassWord:"+ doctor.getPassWord() + " and Mail account: " + doctor.getEmail() + "****.\n" +
-                   "Thanks!\n" +
-                   "    Your medicsi786@gmail.com";
-           return message;
-       }
 }

@@ -6,29 +6,29 @@ package com.ballistic.hospital.dto;
 // used for the login
 public class DoctorDTO {
 
-    private String userName;
-    private String passWord;
+    private String username;
+    private String password;
 
     public DoctorDTO() {}
 
-    public DoctorDTO(String userName, String passWord) {
-        this.userName = userName;
-        this.passWord = passWord;
+    public DoctorDTO(String username, String password) {
+        this.username = username;
+        this.password = password;
     }
 
-    public String getUserName() { return userName; }
+    public String getUsername() { return username; }
 
-    public void setUserName(String userName) { this.userName = userName; }
+    public void setUsername(String username) { this.username = username; }
 
-    public String getPassWord() { return passWord; }
+    public String getPassword() { return password; }
 
-    public void setPassWord(String passWord) { this.passWord = passWord; }
+    public void setPassword(String password) { this.password = password; }
 
     @Override
     public String toString() {
         return "DoctorDTO{" +
-                "userName='" + userName + '\'' +
-                ", passWord='" + passWord + '\'' +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
                 '}';
     }
 }

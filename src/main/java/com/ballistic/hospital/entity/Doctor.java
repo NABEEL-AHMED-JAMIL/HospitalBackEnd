@@ -1,7 +1,13 @@
 package com.ballistic.hospital.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Collection;
 import java.util.Set;
 
 /**
@@ -9,7 +15,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "doctor")
-public class Doctor extends DeletableModel {
+public class Doctor extends DeletableModel implements Serializable, UserDetails {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -17,14 +23,14 @@ public class Doctor extends DeletableModel {
     private Long id;
     @Column(name = "email", unique=true, nullable=false)
     private String email;
-    @Column(name = "name", unique=true, nullable=false)
-    private String userName;
-    @Column(name = "passWord" , nullable = false)
-    private String passWord;
-    @Column(name = "first_name")
-    private String firstName;
-    @Column(name = "last_name")
-    private String lastName;
+    @Column(name = "username", unique=true, nullable=false)
+    private String username;
+    @Column(name = "password" , nullable = false)
+    private String password;
+    @Column(name = "firstname")
+    private String firstname;
+    @Column(name = "lastname")
+    private String lastname;
 	@Column(name = "gender")
     private boolean gender;
     @Column(name = "active")
@@ -44,112 +50,90 @@ public class Doctor extends DeletableModel {
         super();
     }
 
-    public Doctor(Long id, String email, String userName,
-                  String passWord, String firstName, String lastName,
-                  boolean gender, boolean active, Set<Role> roles,
-                  DoctorType doctorType) {
+    public Doctor(Long id, String email, String username, String password, String firstname,
+                  String lastname, boolean gender, boolean active, Set<Role> roles, DoctorType doctorType) {
         this.id = id;
         this.email = email;
-        this.userName = userName;
-        this.passWord = passWord;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.username = username;
+        this.password = password;
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.gender = gender;
         this.active = active;
         this.roles = roles;
         this.doctorType = doctorType;
     }
 
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public void setId(Long id) { this.id = id; }
 
-    public String getEmail() {
-        return email;
-    }
+    public String getEmail() { return email; }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    public void setEmail(String email) { this.email = email; }
 
-    public String getUserName() {
-        return userName;
-    }
+    public void setUsername(String username) { this.username = username; }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
+    public void setPassword(String password) { this.password = password; }
 
-    public String getPassWord() {
-        return passWord;
-    }
+    public String getFirstname() { return firstname; }
 
-    public void setPassWord(String passWord) {
-        this.passWord = passWord;
-    }
+    public void setFirstname(String firstname) {this.firstname = firstname; }
 
-    public String getFirstName() {
-        return firstName;
-    }
+    public String getLastname() { return lastname; }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+    public void setLastname(String lastname) { this.lastname = lastname; }
 
-    public String getLastName() {
-        return lastName;
-    }
+    public boolean isGender() { return gender;}
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+    public void setGender(boolean gender) { this.gender = gender; }
 
-    public boolean isGender() {
-        return gender;
-    }
+    public boolean isActive() { return active; }
 
-    public void setGender(boolean gender) {
-        this.gender = gender;
-    }
+    public void setActive(boolean active) { this.active = active; }
 
-    public boolean isActive() {
-        return active;
-    }
+    public Set<Role> getRoles() { return roles; }
 
-    public void setActive(boolean active) {
-        this.active = active;
-    }
+    public void setRoles(Set<Role> roles) { this.roles = roles; }
 
-    public Set<Role> getRoles() {
-        return roles;
-    }
+    public DoctorType getDoctorType() { return doctorType; }
 
+    public void setDoctorType(DoctorType doctorType) { this.doctorType = doctorType; }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() { return roles; }
 
-    public DoctorType getDoctorType() {
-        return doctorType;
-    }
+    @Override
+    public String getPassword() { return password; }
 
-    public void setDoctorType(DoctorType doctorType) {
-        this.doctorType = doctorType;
-    }
+    @Override
+    public String getUsername() { return username; }
+
+    @JsonIgnore
+    @Override
+    public boolean isAccountNonExpired() { return true; }
+
+    @JsonIgnore
+    @Override
+    public boolean isAccountNonLocked() { return true;}
+
+    @JsonIgnore
+    @Override
+    public boolean isCredentialsNonExpired() { return true; }
+
+    @JsonIgnore
+    @Override
+    public boolean isEnabled() { return isActive(); }
 
     @Override
     public String toString() {
         return "Doctor{" +
                 "id=" + id +
                 ", email='" + email + '\'' +
-                ", userName='" + userName + '\'' +
-                ", passWord='" + passWord + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
                 ", gender=" + gender +
                 ", active=" + active +
                 ", roles=" + roles +

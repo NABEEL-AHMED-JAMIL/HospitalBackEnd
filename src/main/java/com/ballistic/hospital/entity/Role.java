@@ -1,5 +1,8 @@
 package com.ballistic.hospital.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.security.core.GrantedAuthority;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -8,7 +11,7 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "role")
-public class Role extends DatedModel{
+public class Role extends DatedModel implements GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,12 +28,14 @@ public class Role extends DatedModel{
         this.role = role;
     }
 
+    @JsonIgnore
     public int getId() {
         return id;
     }
 
     public void setId(int id) { this.id = id; }
 
+    @JsonIgnore
     public String getRole() {
         return role;
     }
@@ -45,5 +50,10 @@ public class Role extends DatedModel{
                 "id=" + id +
                 ", role='" + role + '\'' +
                 '}';
+    }
+
+    @Override
+    public String getAuthority() {
+        return role;
     }
 }

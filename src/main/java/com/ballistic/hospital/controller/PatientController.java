@@ -90,7 +90,7 @@ public class PatientController {
                 notesMap.put("patientName" , patient.getName());
                 notesMap.put("noteId" , note.getId());
                 notesMap.put("noteDate" , note.getNoteDate());
-                notesMap.put("doctorName" , note.getDoctor().getUserName());
+                notesMap.put("doctorName" , note.getDoctor().getUsername());
                 notesMap.put("description", note.getDescription());
                 notesMap.put("noteType" , note.getDoctorType().getType());
                 temp.add(notesMap);

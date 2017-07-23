@@ -1,0 +1,8 @@
+app:
+  name: hospital back-end
+
+jwt:
+  header: Authorization
+  expires_in: 600 # 10 minutes
+  secret: medicsi786%
+  cookie: AUTH-TOKEN

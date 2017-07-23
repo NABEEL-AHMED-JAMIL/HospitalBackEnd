@@ -34,7 +34,7 @@ public class DoctorController {
     @RequestMapping(value = "/getDoctor",method = RequestMethod.GET)
     public ResponseEntity<Doctor> getDoctor(@RequestBody Doctor doctor) {
 
-        Doctor doctor1 = doctorRepository.findByUserName(doctor.getUserName());
+        Doctor doctor1 = doctorRepository.findByUsername(doctor.getUsername());
         //System.out.print(doctor1.toString());
         if(doctor1 == null ){
             //
