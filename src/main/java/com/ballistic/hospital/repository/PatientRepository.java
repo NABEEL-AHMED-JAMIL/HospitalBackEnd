@@ -13,7 +13,4 @@ import java.util.List;
  * Created by Nabeel on 4/19/2017.
  */
 @Repository
-public interface PatientRepository extends JpaRepository<Patient,Long> {
-
-
-}
+public interface PatientRepository extends JpaRepository<Patient,Long> {}

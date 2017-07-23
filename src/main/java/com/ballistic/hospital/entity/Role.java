@@ -1,17 +1,18 @@
 package com.ballistic.hospital.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by Lycus 01 on 6/29/2017.
  */
 @Entity
 @Table(name = "role")
-public class Role {
+public class Role extends DatedModel{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "role_id")
+    @Column(name = "id")
     private int id;
     @Column(name="role", nullable = false, unique = true)
     private String role;

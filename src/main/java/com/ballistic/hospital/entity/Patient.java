@@ -22,6 +22,8 @@ public class Patient{
     private String name;
     @Column(name = "phone")
     private String phone;
+    @Column(name = "age")
+    private Long age;
     @JsonManagedReference
     @OneToMany( targetEntity=Note.class)
     @JoinColumn(name="mr_no", referencedColumnName = "mr_no")
@@ -30,10 +32,11 @@ public class Patient{
 
     public Patient() {}
 
-    public Patient( Long mrNo, String name, String phone) {
+    public Patient( Long mrNo, String name, String phone, Long age) {
 
         this.mrNo = mrNo;
         this.name = name;
+        this.age = age;
         this.phone = phone;
     }
 
@@ -67,6 +70,14 @@ public class Patient{
 
     public void setNotes(List<Note> notes) {
         this.notes = notes;
+    }
+
+    public Long getAge() {
+        return age;
+    }
+
+    public void setAge(Long age) {
+        this.age = age;
     }
 
     @Override

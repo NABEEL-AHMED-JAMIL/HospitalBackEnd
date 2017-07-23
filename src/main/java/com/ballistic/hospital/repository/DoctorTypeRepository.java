@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface DoctorTypeRepository extends JpaRepository<DoctorType,Long> {
+
+    DoctorType findByType(String type);
 }

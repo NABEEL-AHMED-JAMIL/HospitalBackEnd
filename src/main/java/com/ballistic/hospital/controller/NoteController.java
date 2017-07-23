@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -32,8 +31,7 @@ public class NoteController {
     private DoctorTypeRepository doctorTypeRepository;
 
 
-    @RequestMapping(value="/addNote/{patientId}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAnyRole(\"ADMIN\",\"DBA\",\"USER\")")
+    @RequestMapping(value="/newNote/{patientId}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Patient> newNote(@PathVariable Long patientId, @RequestBody Note note)  {
 
         Patient currentPatient = patientRepository.findOne(patientId);
@@ -46,7 +44,6 @@ public class NoteController {
 
 
     @RequestMapping(value="/getAllNotes", method = RequestMethod.GET)
-    @PreAuthorize("hasAnyRole(\"ADMIN\",\"DBA\",\"USER\")")
     ResponseEntity<List<Note>> getAllNotes() {
 
         List<Note> notes_list = noteRepository.findAll();
@@ -56,8 +53,7 @@ public class NoteController {
         return new ResponseEntity<List<Note>>(notes_list,HttpStatus.OK);
     }
 
-    @RequestMapping(value = "delete/{id}",method = RequestMethod.DELETE)
-    @PreAuthorize("hasAnyRole(\"ADMIN\",\"DBA\",\"USER\")")
+    @RequestMapping(value = "/deleteNote/{id}",method = RequestMethod.DELETE)
     public ResponseEntity<Note> deleteNote(@PathVariable("id") Long id) {
 
         Note note = this.noteRepository.findOne(id);
@@ -65,8 +61,7 @@ public class NoteController {
         return new ResponseEntity<Note>(note,HttpStatus.OK);
     }
 
-    @RequestMapping(value = "{id}",method = RequestMethod.PUT)
-    @PreAuthorize("hasAnyRole(\"ADMIN\",\"DBA\",\"USER\")")
+    @RequestMapping(value = "/updateNote/{id}",method = RequestMethod.PUT)
     public ResponseEntity<Note> updateNote(@PathVariable("id") Long id,@RequestBody Note note) {
 
         Note currentNote = this.noteRepository.findOne(id);

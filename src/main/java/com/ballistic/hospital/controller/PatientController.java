@@ -1,15 +1,17 @@
 package com.ballistic.hospital.controller;
 
+import com.ballistic.hospital.dto.PatientDTO;
+import com.ballistic.hospital.entity.Doctor;
 import com.ballistic.hospital.entity.Note;
 import com.ballistic.hospital.entity.Patient;
 import com.ballistic.hospital.repository.DoctorTypeRepository;
 import com.ballistic.hospital.repository.NoteRepository;
 import com.ballistic.hospital.repository.PatientRepository;
+import com.ballistic.hospital.service.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -29,62 +31,92 @@ public class PatientController {
     private DoctorTypeRepository doctorTypeRepository;
     @Autowired
     private NoteRepository noteRepository;
+    @Autowired
+    private Util util;
 
+    // ok test call
+    @RequestMapping(value="/newPatient",  method = RequestMethod.POST)
+    public ResponseEntity<Patient> newPatient(@RequestBody PatientDTO patientDTO ) {
 
-    @RequestMapping(value="/addPatient",  method = RequestMethod.POST)
-    @PreAuthorize("hasAnyRole(\"ADMIN\",\"DBA\",\"USER\")")
-    public ResponseEntity<Patient> newPatient(@RequestBody Patient patient ) {
-        this.patientRepository.save(patient);
-        return new ResponseEntity<Patient>(patient, HttpStatus.OK);
-
+        try {
+            // check-point
+            Patient patient = new Patient();
+            // if patient name null then used the condition
+            if(patientDTO.getName() == null){
+                // return error message
+                return new ResponseEntity<Patient>(HttpStatus.NOT_ACCEPTABLE);
+            }
+            this.util.showLine();
+            patient.setName(patientDTO.getName());
+            patient.setPhone(patientDTO.getPhone());
+            patient.setAge(patientDTO.getAge());
+            patient.setNotes(null);
+            System.out.println(patient.toString());
+            this.util.showLine();
+            this.patientRepository.save(patient);
+            return new ResponseEntity<Patient>(patient,HttpStatus.OK);
+        }catch (NullPointerException e){
+            e.printStackTrace();
+            return new ResponseEntity<Patient>(HttpStatus.NO_CONTENT);
+        }
     }
 
+    // ok test call
     @RequestMapping(value="/getAllPatient", method = RequestMethod.GET)
-    @PreAuthorize("hasAnyRole(\"ADMIN\",\"DBA\",\"USER\")")
     public ResponseEntity<List<Patient>> getAllPatients() {
+        this.util.showLine();
         List<Patient> patientList = patientRepository.findAll();
-
+        System.out.println(patientList.toArray());
+        this.util.showLine();
         return new ResponseEntity<List<Patient>>(patientList,HttpStatus.OK);
     }
 
 
-    @RequestMapping(value = "notes/{mrNo}",method = RequestMethod.GET)
-    @PreAuthorize("hasAnyRole(\"ADMIN\",\"DBA\",\"USER\")")
+    // need polish
+    @RequestMapping(value = "/getAllPatientNote/{mrNo}",method = RequestMethod.GET)
     public ResponseEntity<List<Object>> getAllPatientNote(@PathVariable("mrNo") Long mrNo) {
 
-         Patient patient = patientRepository.findOne(mrNo);
-         List<Note> noteList = patient.getNotes();
-         List<Object> temp = new  ArrayList<Object>();
-         if(noteList != null){
-
-             for (Note note: noteList) {
-                 Map notesMap = new HashMap();
-                 notesMap.put("patientMrNo" , patient.getMrNo());
-                 notesMap.put("patientName" , patient.getName());
-                 notesMap.put("noteId" , note.getId());
-                 notesMap.put("noteDate" , note.getNoteDate());
-                 notesMap.put("doctorName" , note.getDoctor().getUserName());
-                 notesMap.put("description", note.getDescription());
-                 notesMap.put("noteType" , note.getDoctorType().getType());
-                 temp.add(notesMap);
-             }
-             return new ResponseEntity<List<Object>>(temp,HttpStatus.OK);
-         }else{
-             return new ResponseEntity<List<Object>>(temp,HttpStatus.OK);
-         }
+        Patient patient = patientRepository.findOne(mrNo);
+        List<Note> noteList = patient.getNotes();
+        List<Object> temp = new  ArrayList<Object>();
+        if(noteList != null){
+            // DTO alter native used can be
+            for (Note note: noteList) {
+                this.util.showLine();
+                System.out.println(note);
+                this.util.showLine();
+                Map notesMap = new HashMap();
+                notesMap.put("patientMrNo" , patient.getMrNo());
+                notesMap.put("patientName" , patient.getName());
+                notesMap.put("noteId" , note.getId());
+                notesMap.put("noteDate" , note.getNoteDate());
+                notesMap.put("doctorName" , note.getDoctor().getUserName());
+                notesMap.put("description", note.getDescription());
+                notesMap.put("noteType" , note.getDoctorType().getType());
+                temp.add(notesMap);
+            }
+            this.util.showLine();
+            System.out.println(temp.toArray());
+            this.util.showLine();
+            return new ResponseEntity<List<Object>>(temp,HttpStatus.OK);
+        }else{
+            return new ResponseEntity<List<Object>>(temp,HttpStatus.OK);
+        }
     }
 
-
-    @RequestMapping(value = "/{mrNo}",method = RequestMethod.GET)
-    @PreAuthorize("hasAnyRole(\"ADMIN\",\"DBA\",\"USER\")")
+    //
+    @RequestMapping(value = "/getPatient/{mrNo}",method = RequestMethod.GET)
     public ResponseEntity<Patient> getPatient(@PathVariable("mrNo") Long mrNo) {
-
+        this.util.showLine();
         Patient patient = patientRepository.findOne(mrNo);
+        System.out.println(patient.toString());
+        this.util.showLine();
         return new ResponseEntity<Patient>(patient,HttpStatus.OK);
     }
 
 
-    @RequestMapping(value = "/{mrNo}",method = RequestMethod.DELETE)
+    // ok test
+    @RequestMapping(value = "/deletePatient/{mrNo}",method = RequestMethod.DELETE)
     public ResponseEntity<Patient> deletePatient(@PathVariable("mrNo") Long mrNo) {
 
         Patient patient = this.patientRepository.findOne(mrNo);
@@ -99,8 +131,7 @@ public class PatientController {
     }
 
 
-    @RequestMapping(value = "/{mrNo}",method = RequestMethod.PUT , produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAnyRole(\"ADMIN\",\"DBA\",\"USER\")")
+    @RequestMapping(value = "/updatePatient/{mrNo}",method = RequestMethod.PUT , produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Patient> updatePatient(@PathVariable("mrNo") long mrNo, @RequestBody Patient patient) {
 
         Patient temp = this.patientRepository.findOne(mrNo);

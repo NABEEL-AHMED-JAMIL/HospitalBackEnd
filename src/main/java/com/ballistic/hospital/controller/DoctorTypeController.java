@@ -1,12 +1,11 @@
 package com.ballistic.hospital.controller;
 
-import com.ballistic.hospital.entity.Doctor;
 import com.ballistic.hospital.entity.DoctorType;
 import com.ballistic.hospital.repository.DoctorTypeRepository;
+import com.ballistic.hospital.service.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,17 +19,29 @@ public class DoctorTypeController {
 
     @Autowired
     private DoctorTypeRepository doctorTypeRepository;
+    @Autowired
+    private Util util;
 
-    @RequestMapping(method = RequestMethod.POST)
-    @PreAuthorize("hasAnyRole(\"ADMIN\",\"DBA\",\"USER\")")
-    public ResponseEntity<DoctorType> addDoctorType(@RequestBody DoctorType doctorType) {
-        this.doctorTypeRepository.save(doctorType);
-        return new ResponseEntity<DoctorType>(doctorType,HttpStatus.CREATED);
+    @RequestMapping(value="/addDoctorType", method = RequestMethod.POST)
+    public ResponseEntity<DoctorType> addDoctorType(@RequestBody String doctorType) {
+        this.util.showLine();
+        System.out.println("Value of doctor type"+ doctorType);
+        if(doctorTypeRepository.findByType(doctorType) == null){
+            if(doctorType.trim().equals("")){
+                return new ResponseEntity<DoctorType>(HttpStatus.NOT_ACCEPTABLE);
+            }
+            DoctorType doctorType1 = new DoctorType();
+            doctorType1.setType(doctorType.toUpperCase());
+            doctorTypeRepository.save(doctorType1);
+            return new ResponseEntity<DoctorType>(doctorType1,HttpStatus.CREATED);
+        }else{
+            return new ResponseEntity<DoctorType>(HttpStatus.NOT_ACCEPTABLE);
+        }
+
     }
 
-    @RequestMapping(value="/getAllType", method = RequestMethod.GET)
-    @PreAuthorize("hasAnyRole(\"ADMIN\",\"DBA\",\"USER\")")
-    public ResponseEntity<List<DoctorType>> getAllTypes() {
+    @RequestMapping(value="/getAllDotorTypes", method = RequestMethod.GET)
+    public ResponseEntity<List<DoctorType>> getAllDotorTypes() {
 
         List<DoctorType> doctorTypeList = doctorTypeRepository.findAll();
         if(doctorTypeList.isEmpty()){
@@ -40,15 +51,13 @@ public class DoctorTypeController {
     }
 
 
-    @RequestMapping(value = "{id}",method = RequestMethod.DELETE)
-    @PreAuthorize("hasAnyRole(\"ADMIN\",\"DBA\",\"USER\")")
+    @RequestMapping(value = "/deleteDoctorType/{id}",method = RequestMethod.DELETE)
     public ResponseEntity<DoctorType> deleteDoctorType(@PathVariable("id") Long id) {
         this.doctorTypeRepository.delete(id);
         return new ResponseEntity<DoctorType>(HttpStatus.NO_CONTENT);
     }
 
-    @RequestMapping(value = "{id}",method = RequestMethod.GET)
-    @PreAuthorize("hasAnyRole(\"ADMIN\",\"DBA\",\"USER\")")
+    @RequestMapping(value = "/getDoctorType/{id}",method = RequestMethod.GET)
     public ResponseEntity<DoctorType> getDoctorType(@PathVariable("id") Long id) {
 
         DoctorType doctorType = this.doctorTypeRepository.findOne(id);
@@ -56,8 +65,7 @@ public class DoctorTypeController {
     }
 
 
-    @RequestMapping(value = "{id}",method = RequestMethod.PUT)
-    @PreAuthorize("hasAnyRole(\"ADMIN\",\"DBA\",\"USER\")")
+    @RequestMapping(value = "/updateDoctorType/{id}",method = RequestMethod.PUT)
     public ResponseEntity<DoctorType> updateDoctorType(@RequestBody DoctorType doctorType) {
         this.doctorTypeRepository.save(doctorType);
         return new ResponseEntity<DoctorType>(doctorType,HttpStatus.OK);
