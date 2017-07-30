@@ -141,15 +141,6 @@ public class TokenHelper {
         return null;
     }
 
-    /**
-     * Find a specific HTTP cookie in a request.
-     *
-     * @param request
-     *            The HTTP request object.
-     * @param name
-     *            The cookie name to look for.
-     * @return The cookie, or <code>null</code> if not found.
-     */
     public Cookie getCookieValueByName(HttpServletRequest request, String name) {
         if (request.getCookies() == null) {
             return null;

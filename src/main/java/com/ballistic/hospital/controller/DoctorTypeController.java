@@ -6,6 +6,7 @@ import com.ballistic.hospital.service.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class DoctorTypeController {
     private Util util;
 
     @RequestMapping(value="/addDoctorType", method = RequestMethod.POST)
+    @PreAuthorize("hasRole('DBA') or hasRole('ADMIN')")
     public ResponseEntity<DoctorType> addDoctorType(@RequestBody String doctorType) {
         this.util.showLine();
         System.out.println("Value of doctor type"+ doctorType);
@@ -52,6 +54,7 @@ public class DoctorTypeController {
 
 
     @RequestMapping(value = "/deleteDoctorType/{id}",method = RequestMethod.DELETE)
+    @PreAuthorize("hasRole('DBA') or hasRole('ADMIN')")
     public ResponseEntity<DoctorType> deleteDoctorType(@PathVariable("id") Long id) {
         this.doctorTypeRepository.delete(id);
         return new ResponseEntity<DoctorType>(HttpStatus.NO_CONTENT);
@@ -66,6 +69,7 @@ public class DoctorTypeController {
 
 
     @RequestMapping(value = "/updateDoctorType/{id}",method = RequestMethod.PUT)
+    @PreAuthorize("hasRole('DBA') or hasRole('ADMIN')")
     public ResponseEntity<DoctorType> updateDoctorType(@RequestBody DoctorType doctorType) {
         this.doctorTypeRepository.save(doctorType);
         return new ResponseEntity<DoctorType>(doctorType,HttpStatus.OK);

@@ -4,14 +4,14 @@ package com.ballistic.hospital.dto;
  * Created by Lycus 01 on 7/16/2017.
  */
 // used for the login
-public class DoctorDTO {
+public class LoginDTO {
 
     private String username;
     private String password;
 
-    public DoctorDTO() {}
+    public LoginDTO() {}
 
-    public DoctorDTO(String username, String password) {
+    public LoginDTO(String username, String password) {
         this.username = username;
         this.password = password;
     }
@@ -26,7 +26,7 @@ public class DoctorDTO {
 
     @Override
     public String toString() {
-        return "DoctorDTO{" +
+        return "LoginDTO{" +
                 "username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 '}';

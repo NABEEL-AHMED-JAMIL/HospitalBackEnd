@@ -2,7 +2,7 @@ package com.ballistic.hospital.controller;
 
 import com.ballistic.hospital.dto.DoctorTokenState;
 import com.ballistic.hospital.entity.Doctor;
-//import com.ballistic.hospital.dto.DoctorDTO;
+//import com.ballistic.hospital.dto.LoginDTO;
 import com.ballistic.hospital.repository.DoctorRepository;
 import com.ballistic.hospital.security.TokenHelper;
 import com.ballistic.hospital.service.EmailService;
@@ -11,21 +11,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * Created by Lycus 01 on 7/4/2017.
  */
 @RestController
 @RequestMapping("/auth")
-public class LogInController {
+public class AuthController {
 
     @Autowired
     private Util util;
@@ -45,11 +48,13 @@ public class LogInController {
     private String TOKEN_COOKIE;
 
     @RequestMapping(value = "/refresh", method = RequestMethod.GET)
-    public ResponseEntity<?> refreshAuthenticationToken(HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<?> refreshAuthenticationToken(HttpServletRequest request, HttpServletResponse response, Authentication authentication)  {
 
+        Doctor doctor = (Doctor) authentication.getPrincipal();
         String authToken = tokenHelper.getToken( request );
+
         if (authToken != null && tokenHelper.canTokenBeRefreshed(authToken)) {
-            // TODO check user password last update
+
             String refreshedToken = tokenHelper.refreshToken(authToken);
 
             Cookie authCookie = new Cookie( TOKEN_COOKIE, ( refreshedToken ) );
@@ -59,7 +64,7 @@ public class LogInController {
             // Add cookie to response
             response.addCookie( authCookie );
 
-            DoctorTokenState doctorTokenState = new DoctorTokenState(refreshedToken, EXPIRES_IN);
+            DoctorTokenState doctorTokenState = new DoctorTokenState(refreshedToken, doctor  ,EXPIRES_IN);
             return ResponseEntity.ok(doctorTokenState);
         } else {
             DoctorTokenState doctorTokenState = new DoctorTokenState();
@@ -89,7 +94,7 @@ public class LogInController {
 
     //    //ok test call
 //    @RequestMapping(value="/login",  method = RequestMethod.POST)
-//    public ResponseEntity<Doctor> login(@RequestBody DoctorDTO doctor ) {
+//    public ResponseEntity<Doctor> login(@RequestBody LoginDTO doctor ) {
 //
 //        Doctor doctor1 = doctorRepository.findByUserName(doctor.getUsername());
 //        if(doctor1 != null){

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class NoteController {
 
 
     @RequestMapping(value="/newNote/{patientId}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('DBA') or hasRole('ADMIN')")
     public ResponseEntity<Patient> newNote(@PathVariable Long patientId, @RequestBody Note note)  {
 
         Patient currentPatient = patientRepository.findOne(patientId);
@@ -54,6 +56,7 @@ public class NoteController {
     }
 
     @RequestMapping(value = "/deleteNote/{id}",method = RequestMethod.DELETE)
+    @PreAuthorize("hasRole('DBA') or hasRole('ADMIN')")
     public ResponseEntity<Note> deleteNote(@PathVariable("id") Long id) {
 
         Note note = this.noteRepository.findOne(id);
@@ -62,6 +65,7 @@ public class NoteController {
     }
 
     @RequestMapping(value = "/updateNote/{id}",method = RequestMethod.PUT)
+    @PreAuthorize("hasRole('DBA') or hasRole('ADMIN')")
     public ResponseEntity<Note> updateNote(@PathVariable("id") Long id,@RequestBody Note note) {
 
         Note currentNote = this.noteRepository.findOne(id);

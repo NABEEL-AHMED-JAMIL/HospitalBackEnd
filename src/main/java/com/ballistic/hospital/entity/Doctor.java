@@ -27,6 +27,8 @@ public class Doctor extends DeletableModel implements Serializable, UserDetails 
     private String username;
     @Column(name = "password" , nullable = false)
     private String password;
+    // this not need for in side the db
+    private String confirmPassword;
     @Column(name = "firstname")
     private String firstname;
     @Column(name = "lastname")
@@ -88,10 +90,12 @@ public class Doctor extends DeletableModel implements Serializable, UserDetails 
 
     public void setGender(boolean gender) { this.gender = gender; }
 
+    @JsonIgnore
     public boolean isActive() { return active; }
 
     public void setActive(boolean active) { this.active = active; }
 
+    @JsonIgnore
     public Set<Role> getRoles() { return roles; }
 
     public void setRoles(Set<Role> roles) { this.roles = roles; }
@@ -100,9 +104,16 @@ public class Doctor extends DeletableModel implements Serializable, UserDetails 
 
     public void setDoctorType(DoctorType doctorType) { this.doctorType = doctorType; }
 
+    @JsonIgnore
+    public String getConfirmPassword() { return confirmPassword; }
+
+    public void setConfirmPassword(String confirmPassword) { this.confirmPassword = confirmPassword; }
+
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() { return roles; }
 
+    @JsonIgnore
     @Override
     public String getPassword() { return password; }
 

@@ -16,10 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EntityScan(basePackages = "com.ballistic.hospital")
 public class HospitalBackEndApplication {
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+
 
 //	@Autowired
 //	PasswordEncoder passwordEncoder;
@@ -33,7 +30,7 @@ public class HospitalBackEndApplication {
 //			public void run(String... arg0) throws Exception {
 //
 //				doctorRepository.save(
-//						new Doctor(1L, "alinayet@gmail.com", "ALI", passwordEncoder.encode("ballistic"), "ALI", "ALI",true,true, null, null));
+//						new Doctor(4L, "xyz@gmail.com", "xyz", passwordEncoder.encode("ballistic"), "xyz", "xyz",true,true, null, null));
 //			}
 //
 //		};

@@ -28,7 +28,6 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
     TokenHelper tokenHelper;
-
     @Autowired
     UserDetailsService userDetailsService;
 

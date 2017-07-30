@@ -51,7 +51,7 @@ public class AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccess
 		// Add cookie to response
 		response.addCookie( authCookie );
 		// JWT is also in the response
-		DoctorTokenState userTokenState = new DoctorTokenState(jws, EXPIRES_IN);
+		DoctorTokenState userTokenState = new DoctorTokenState(jws, doctor , EXPIRES_IN);
 		String jwtResponse = objectMapper.writeValueAsString( userTokenState );
 		response.setContentType("application/json");
 		response.getWriter().write( jwtResponse );
