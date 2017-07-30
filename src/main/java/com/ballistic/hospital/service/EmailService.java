@@ -50,10 +50,11 @@ public class EmailService {
        public String message(Doctor doctor){
            String message = "Dear, "+doctor.getFirstname()+" "+doctor.getLastname()+"\n" +
                    "Welcome!\n" +
-                   "Thank you for becoming a registered member of:\n" +
-                   "MEDICSi Patient Portal\n" +
+                   "Thank you for becoming a registered member of: " +
+                   "MEDICSi Patient Portal\n\n" +
                    "Check out these storage related information.    \n" +
-                   "**** UserName:"+ doctor.getUsername() +" and PassWord:"+ passwordEncoder.encode(doctor.getPassword()) + " and Mail account: " + doctor.getEmail() + "****.\n" +
+                   "**** UserName: "+ doctor.getUsername() + " and Mail account: " + doctor.getEmail() + "****.\n" +
+                   "***Click the link to reset the password**** ==> "+ "http://localhost:4200/app-forgot-password/"+doctor.getId()+"\n" +
                    "Thanks!\n" +
                    "    Your medicsi786@gmail.com";
            System.out.println(message.toString());

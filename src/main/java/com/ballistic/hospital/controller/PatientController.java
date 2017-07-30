@@ -18,10 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 
-/**
- * Created by Nabeel on 4/19/2017.
- */
-
 @RestController
 @RequestMapping("/patient")
 public class PatientController {

@@ -2,7 +2,6 @@ package com.ballistic.hospital.controller;
 
 import com.ballistic.hospital.dto.DoctorTokenState;
 import com.ballistic.hospital.entity.Doctor;
-//import com.ballistic.hospital.dto.LoginDTO;
 import com.ballistic.hospital.repository.DoctorRepository;
 import com.ballistic.hospital.security.TokenHelper;
 import com.ballistic.hospital.service.EmailService;
@@ -11,21 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.ServletException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
-/**
- * Created by Lycus 01 on 7/4/2017.
- */
+
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -36,6 +29,8 @@ public class AuthController {
     private DoctorRepository doctorRepository;
     @Autowired
     private EmailService emailService;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
 
     @Autowired
@@ -48,27 +43,28 @@ public class AuthController {
     private String TOKEN_COOKIE;
 
     @RequestMapping(value = "/refresh", method = RequestMethod.GET)
-    public ResponseEntity<?> refreshAuthenticationToken(HttpServletRequest request, HttpServletResponse response, Authentication authentication)  {
+    public ResponseEntity<?> refreshAuthenticationToken(HttpServletRequest request, HttpServletResponse response)  {
 
-        Doctor doctor = (Doctor) authentication.getPrincipal();
-        String authToken = tokenHelper.getToken( request );
+        try {
 
-        if (authToken != null && tokenHelper.canTokenBeRefreshed(authToken)) {
+            String authToken = tokenHelper.getToken( request );
+            if (authToken != null && tokenHelper.canTokenBeRefreshed(authToken)) {
 
-            String refreshedToken = tokenHelper.refreshToken(authToken);
-
-            Cookie authCookie = new Cookie( TOKEN_COOKIE, ( refreshedToken ) );
-            authCookie.setPath( "/" );
-            authCookie.setHttpOnly( true );
-            authCookie.setMaxAge( EXPIRES_IN );
-            // Add cookie to response
-            response.addCookie( authCookie );
-
-            DoctorTokenState doctorTokenState = new DoctorTokenState(refreshedToken, doctor  ,EXPIRES_IN);
-            return ResponseEntity.ok(doctorTokenState);
-        } else {
-            DoctorTokenState doctorTokenState = new DoctorTokenState();
-            return ResponseEntity.accepted().body(doctorTokenState);
+                String refreshedToken = tokenHelper.refreshToken(authToken);
+                Cookie authCookie = new Cookie( TOKEN_COOKIE, ( refreshedToken ) );
+                authCookie.setPath( "/" );
+                authCookie.setHttpOnly( true );
+                authCookie.setMaxAge( EXPIRES_IN );
+                response.addCookie( authCookie );
+                DoctorTokenState doctorTokenState = new DoctorTokenState(refreshedToken, null  ,EXPIRES_IN);
+                return ResponseEntity.ok(doctorTokenState);
+            } else {
+                DoctorTokenState doctorTokenState = new DoctorTokenState();
+                return ResponseEntity.accepted().body(doctorTokenState);
+            }
+        }catch (NullPointerException e){
+            System.out.println("ERROR------------------------> Handle");
+            return (ResponseEntity<?>) ResponseEntity.noContent();
         }
     }
 
@@ -92,31 +88,40 @@ public class AuthController {
         return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
     }
 
-    //    //ok test call
-//    @RequestMapping(value="/login",  method = RequestMethod.POST)
-//    public ResponseEntity<Doctor> login(@RequestBody LoginDTO doctor ) {
-//
-//        Doctor doctor1 = doctorRepository.findByUserName(doctor.getUsername());
-//        if(doctor1 != null){
-//            // check the user true
-//            if(doctor.getUsername().equals(doctor1.getUsername())){
-//                if(doctor.getPassword().equals(doctor1.getPassword())){
-//                    // set the null for password
-//                    doctor1.setPassword(null);
-//                    return new ResponseEntity<Doctor>(doctor1, HttpStatus.OK);
-//                }else {
-//                    return new ResponseEntity<Doctor>(HttpStatus.NOT_FOUND);
-//                }
-//
-//            }else {
-//                return new ResponseEntity<Doctor>(HttpStatus.NOT_FOUND);
-//            }
-//        }else{
-//            System.out.println("Doctor null");
-//            return new ResponseEntity<Doctor>(HttpStatus.NOT_FOUND);
-//
-//        }
-//    }
+    //ok test call
+    @RequestMapping(value="/fetchRestPassWordDetail/{id}",  method = RequestMethod.GET)
+    public ResponseEntity<Map> fetchRestPassWordDetail(@PathVariable("id") Long id ) {
+
+        Doctor doctor1 = this.doctorRepository.findOne(id);
+        if(doctor1 != null){
+            // check the user true
+            Map notesMap = new HashMap();
+            notesMap.put("email" , doctor1.getEmail());
+            notesMap.put("username" , doctor1.getUsername());
+
+            return new ResponseEntity<Map>(notesMap, HttpStatus.OK);
+        }else{
+            System.out.println("Doctor null");
+            return new ResponseEntity<Map>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    //ok test call
+    @RequestMapping(value="/updatePassword/{id}",  method = RequestMethod.PUT)
+    public ResponseEntity<String> updatePassword(@PathVariable("id") Long id , @RequestBody String password) {
+
+        Doctor doctor1 = this.doctorRepository.findOne(id);
+        this.util.showLine();
+        if(doctor1 != null){
+            // check the user true
+            doctor1.setPassword(passwordEncoder.encode(password));
+            this.doctorRepository.save(doctor1);
+            return new ResponseEntity<String>("PassWord Set",HttpStatus.OK);
+        }else{
+            System.out.println("Doctor null");
+            return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+        }
+    }
 
 
 }

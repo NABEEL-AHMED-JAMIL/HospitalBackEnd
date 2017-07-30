@@ -10,9 +10,7 @@ import javax.persistence.PreUpdate;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-/**
- * Created by Lycus 01 on 7/15/2017.
- */
+
 @MappedSuperclass
 public class DatedModel implements Serializable{
 

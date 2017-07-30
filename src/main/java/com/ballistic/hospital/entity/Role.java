@@ -6,9 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import javax.persistence.*;
 import java.io.Serializable;
 
-/**
- * Created by Lycus 01 on 6/29/2017.
- */
+
 @Entity
 @Table(name = "role")
 public class Role extends DatedModel implements GrantedAuthority {

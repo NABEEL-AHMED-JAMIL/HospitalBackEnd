@@ -3,9 +3,6 @@ package com.ballistic.hospital.entity;
 
 import javax.persistence.*;
 
-/**
- * Created by Nabeel on 4/18/2017.
- */
 
 @Entity
 @Table(name = "doctorType")
@@ -14,7 +11,7 @@ public class DoctorType {
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO)
     private Long id;
-    @Column(name = "type")
+    @Column(name = "type", unique = true, nullable = false)
     private String type;
 
 

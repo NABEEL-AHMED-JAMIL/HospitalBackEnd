@@ -1,8 +1,6 @@
 package com.ballistic.hospital.dto;
 
-/**
- * Created by Lycus 01 on 7/16/2017.
- */
+
 // used for the login
 public class LoginDTO {
 

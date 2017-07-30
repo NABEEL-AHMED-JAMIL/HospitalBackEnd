@@ -6,10 +6,6 @@ import javax.persistence.*;
 import java.util.List;
 
 
-/**
- * Created by Nabeel on 4/19/2017.
- */
-
 @Entity
 @Table(name = "patient")
 public class Patient{

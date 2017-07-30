@@ -1,8 +1,6 @@
 package com.ballistic.hospital.dto;
 
-/**
- * Created by Lycus 01 on 7/21/2017.
- */
+
 public class PatientDTO {
 
     private String name;

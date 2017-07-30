@@ -9,9 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/**
- * Created by Nabeel on 4/15/2017.
- */
 
 @RestController
 @RequestMapping("/doctor")

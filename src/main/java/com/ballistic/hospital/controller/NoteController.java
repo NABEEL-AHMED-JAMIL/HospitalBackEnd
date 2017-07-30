@@ -15,9 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 
-/**
- * Created by Nabeel on 4/16/2017.
- */
 @RestController
 @RequestMapping("/note")
 public class NoteController {

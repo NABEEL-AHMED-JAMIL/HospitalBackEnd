@@ -3,9 +3,7 @@ package com.ballistic.hospital.entity;
 import javax.persistence.*;
 import java.sql.Date;
 
-/**
- * Created by Nabeel on 4/15/2017.
- */
+
 @Entity
 @Table(name = "note")
 public class Note {

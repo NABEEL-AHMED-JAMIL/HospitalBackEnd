@@ -27,9 +27,7 @@ public class RegisterController {
     PasswordEncoder passwordEncoder;
     private Doctor doctor;
 
-    // post the new doctor
-    // check the email or user name exist or not
-    // if not than register other wiser no
+
     @RequestMapping(value="/register",  method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('DBA')")
     public ResponseEntity<Doctor> registerUser(@RequestBody Doctor doctor ) {

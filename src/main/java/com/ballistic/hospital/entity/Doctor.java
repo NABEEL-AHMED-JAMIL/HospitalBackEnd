@@ -10,9 +10,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Set;
 
-/**
- * Created by Nabeel on 4/15/2017.
- */
+
 @Entity
 @Table(name = "doctor")
 public class Doctor extends DeletableModel implements Serializable, UserDetails {

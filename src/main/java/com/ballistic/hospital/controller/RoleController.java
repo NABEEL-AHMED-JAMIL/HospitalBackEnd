@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-/**
- * Created by Lycus 01 on 7/22/2017.
- */
+
 @RestController
 public class RoleController {
 

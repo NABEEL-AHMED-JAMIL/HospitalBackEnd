@@ -7,9 +7,7 @@ import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-/**
- * Created by Lycus 01 on 7/15/2017.
- */
+
 @MappedSuperclass
 public abstract class DeletableModel extends DatedModel implements Serializable{
 
