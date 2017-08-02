@@ -32,8 +32,8 @@ public class PatientController {
     private Util util;
 
     // ok test call
-    @RequestMapping(value="/newPatient",  method = RequestMethod.POST)
-    @PreAuthorize("hasRole('DBA') or hasRole('ADMIN')")
+    @RequestMapping(value="/newPatient",  method = RequestMethod.POST, consumes = "application/json")
+    @PreAuthorize("hasAnyRole('DBA' ,'ADMIN')")
     public ResponseEntity<Patient> newPatient(@RequestBody PatientDTO patientDTO ) {
 
         try {
@@ -115,7 +115,7 @@ public class PatientController {
 
     // ok test
     @RequestMapping(value = "/deletePatient/{mrNo}",method = RequestMethod.DELETE)
-    @PreAuthorize("hasRole('DBA') or hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('DBA' ,'ADMIN')")
     public ResponseEntity<Patient> deletePatient(@PathVariable("mrNo") Long mrNo) {
 
         Patient patient = this.patientRepository.findOne(mrNo);
@@ -131,7 +131,7 @@ public class PatientController {
 
 
     @RequestMapping(value = "/updatePatient/{mrNo}",method = RequestMethod.PUT , produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasRole('DBA') or hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('DBA' ,'ADMIN')")
     public ResponseEntity<Patient> updatePatient(@PathVariable("mrNo") long mrNo, @RequestBody Patient patient) {
 
         Patient temp = this.patientRepository.findOne(mrNo);

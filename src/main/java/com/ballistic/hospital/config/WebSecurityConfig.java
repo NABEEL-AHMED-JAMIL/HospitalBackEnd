@@ -79,16 +79,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .exceptionHandling().authenticationEntryPoint( getBasicAuthEntryPoint() ).and()
             .addFilterBefore(jwtAuthenticationTokenFilter(), BasicAuthenticationFilter.class)
             .authorizeRequests()
-            .antMatchers(HttpMethod.POST, "/docType/addDoctorType").hasAnyAuthority("DBA","ADMIN").
-            antMatchers(HttpMethod.DELETE, "/docType/deleteDoctorType/**").hasAnyAuthority("DBA","ADMIN").
-            antMatchers(HttpMethod.PUT, "/docType/updateDoctorType/**").hasAnyAuthority("DBA","ADMIN").
-            antMatchers("/note/newNote/**").hasAnyAuthority("DBA","ADMIN").
-            antMatchers("/note/deleteNote/**").hasAnyAuthority("DBA","ADMIN").
-            antMatchers("/note/updateNote/**").hasAnyAuthority("DBA","ADMIN").
-            antMatchers(HttpMethod.POST, "/patient/newPatient").hasAnyAuthority("DBA","ADMIN").
-            antMatchers(HttpMethod.DELETE, "/patient/**").hasAnyAuthority("DBA","ADMIN").
-            antMatchers(HttpMethod.PUT, "/patient/**").hasAnyAuthority("DBA","ADMIN").
-            antMatchers(HttpMethod.POST, "/register").hasAuthority("DBA").and()
+            .antMatchers(HttpMethod.POST, "/docType/addDoctorType").hasAnyRole("DBA","ADMIN").
+            antMatchers(HttpMethod.DELETE, "/docType/deleteDoctorType/**").hasAnyRole("DBA","ADMIN").
+            antMatchers(HttpMethod.PUT, "/docType/updateDoctorType/**").hasAnyRole("DBA","ADMIN").
+            antMatchers("/note/newNote/**").hasAnyRole("DBA","ADMIN").
+            antMatchers("/note/deleteNote/**").hasAnyRole("DBA","ADMIN").
+            antMatchers("/note/updateNote/**").hasAnyRole("DBA","ADMIN").
+            antMatchers("/patient/newPatient").hasAnyRole("DBA","ADMIN").
+            antMatchers(HttpMethod.DELETE, "/patient/**").hasAnyRole("DBA","ADMIN").
+            antMatchers(HttpMethod.PUT, "/patient/**").hasAnyRole("DBA","ADMIN").
+            antMatchers(HttpMethod.POST, "/register").hasAnyRole("DBA").and()
             .formLogin()
             .loginPage("/auth/login")
             .successHandler(authenticationSuccessHandler)
