@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.Cookie;
@@ -43,10 +44,11 @@ public class AuthController {
     private String TOKEN_COOKIE;
 
     @RequestMapping(value = "/refresh", method = RequestMethod.GET)
-    public ResponseEntity<?> refreshAuthenticationToken(HttpServletRequest request, HttpServletResponse response)  {
+    public ResponseEntity<?> refreshAuthenticationToken(HttpServletRequest request, HttpServletResponse response, Authentication authentication)  {
 
         try {
 
+            Doctor doctor = (Doctor) authentication.getPrincipal();
             String authToken = tokenHelper.getToken( request );
             if (authToken != null && tokenHelper.canTokenBeRefreshed(authToken)) {
 
@@ -56,15 +58,20 @@ public class AuthController {
                 authCookie.setHttpOnly( true );
                 authCookie.setMaxAge( EXPIRES_IN );
                 response.addCookie( authCookie );
-                DoctorTokenState doctorTokenState = new DoctorTokenState(refreshedToken, null  ,EXPIRES_IN);
+                DoctorTokenState doctorTokenState = new DoctorTokenState(refreshedToken, doctor  ,EXPIRES_IN);
                 return ResponseEntity.ok(doctorTokenState);
             } else {
+                // scope not pass here
+                System.out.println("DOCTER ELSE ERROR------------------------> Handle");
                 DoctorTokenState doctorTokenState = new DoctorTokenState();
+                System.out.println("DOCTER ELSE------------------------> Handle");
                 return ResponseEntity.accepted().body(doctorTokenState);
             }
         }catch (NullPointerException e){
             System.out.println("ERROR------------------------> Handle");
-            return (ResponseEntity<?>) ResponseEntity.noContent();
+            DoctorTokenState doctorTokenState = new DoctorTokenState();
+            System.out.println("DOCTER ELSE------------------------> Handle");
+            return ResponseEntity.accepted().body(doctorTokenState);
         }
     }
 
