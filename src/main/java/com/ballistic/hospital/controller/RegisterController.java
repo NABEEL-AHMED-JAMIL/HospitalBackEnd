@@ -29,7 +29,7 @@ public class RegisterController {
 
 
     @RequestMapping(value="/register",  method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasRole('DBA')")
+    @PreAuthorize("hasRole('ROLE_DBA')")
     public ResponseEntity<Doctor> registerUser(@RequestBody Doctor doctor ) {
 
         if(doctor.getPassword().equals(doctor.getConfirmPassword())){

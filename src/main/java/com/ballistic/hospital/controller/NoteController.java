@@ -30,7 +30,7 @@ public class NoteController {
 
 
     @RequestMapping(value="/newNote/{patientId}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAnyRole('DBA' ,'ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_DBA' ,'ROLE_ADMIN')")
     public ResponseEntity<Patient> newNote(@PathVariable Long patientId, @RequestBody Note note)  {
 
         Patient currentPatient = patientRepository.findOne(patientId);
@@ -53,7 +53,7 @@ public class NoteController {
     }
 
     @RequestMapping(value = "/deleteNote/{id}",method = RequestMethod.DELETE)
-    @PreAuthorize("hasAnyRole('DBA' ,'ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_DBA' ,'ROLE_ADMIN')")
     public ResponseEntity<Note> deleteNote(@PathVariable("id") Long id) {
 
         Note note = this.noteRepository.findOne(id);
@@ -62,7 +62,7 @@ public class NoteController {
     }
 
     @RequestMapping(value = "/updateNote/{id}",method = RequestMethod.PUT)
-    @PreAuthorize("hasAnyRole('DBA' ,'ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_DBA' ,'ROLE_ADMIN')")
     public ResponseEntity<Note> updateNote(@PathVariable("id") Long id,@RequestBody Note note) {
 
         Note currentNote = this.noteRepository.findOne(id);
