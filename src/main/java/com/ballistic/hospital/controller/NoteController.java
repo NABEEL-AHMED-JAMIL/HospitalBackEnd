@@ -13,10 +13,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import static com.ballistic.hospital.dto.ActionConsts.*;
 
 
 @RestController
-@RequestMapping("/note")
+@RequestMapping(NOTE)
 public class NoteController {
 
     @Autowired
@@ -29,7 +30,7 @@ public class NoteController {
     private DoctorTypeRepository doctorTypeRepository;
 
 
-    @RequestMapping(value="/newNote/{patientId}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = NEW_NOTE, method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAnyRole('ROLE_DBA' ,'ROLE_ADMIN')")
     public ResponseEntity<Patient> newNote(@PathVariable Long patientId, @RequestBody Note note)  {
 
@@ -42,7 +43,7 @@ public class NoteController {
     }
 
 
-    @RequestMapping(value="/getAllNotes", method = RequestMethod.GET)
+    @RequestMapping(value = GET_ALL_NOTES, method = RequestMethod.GET)
     ResponseEntity<List<Note>> getAllNotes() {
 
         List<Note> notes_list = noteRepository.findAll();
@@ -52,7 +53,7 @@ public class NoteController {
         return new ResponseEntity<List<Note>>(notes_list,HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/deleteNote/{id}",method = RequestMethod.DELETE)
+    @RequestMapping(value = DELETE_NOTE, method = RequestMethod.DELETE)
     @PreAuthorize("hasAnyRole('ROLE_DBA' ,'ROLE_ADMIN')")
     public ResponseEntity<Note> deleteNote(@PathVariable("id") Long id) {
 
@@ -61,7 +62,7 @@ public class NoteController {
         return new ResponseEntity<Note>(note,HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/updateNote/{id}",method = RequestMethod.PUT)
+    @RequestMapping(value = UPDATE_NOTE, method = RequestMethod.PUT)
     @PreAuthorize("hasAnyRole('ROLE_DBA' ,'ROLE_ADMIN')")
     public ResponseEntity<Note> updateNote(@PathVariable("id") Long id,@RequestBody Note note) {
 

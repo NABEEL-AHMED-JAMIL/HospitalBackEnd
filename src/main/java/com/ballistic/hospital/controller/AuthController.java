@@ -18,10 +18,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
+import static com.ballistic.hospital.dto.ActionConsts.*;
 
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping(AUTH)
 public class AuthController {
 
     @Autowired
@@ -32,8 +33,6 @@ public class AuthController {
     private EmailService emailService;
     @Autowired
     PasswordEncoder passwordEncoder;
-
-
     @Autowired
     TokenHelper tokenHelper;
 
@@ -43,7 +42,8 @@ public class AuthController {
     @Value("${jwt.cookie}")
     private String TOKEN_COOKIE;
 
-    @RequestMapping(value = "/refresh", method = RequestMethod.GET)
+
+    @RequestMapping(value = REFRESH, method = RequestMethod.GET)
     public ResponseEntity<?> refreshAuthenticationToken(HttpServletRequest request, HttpServletResponse response, Authentication authentication)  {
 
         try {
@@ -77,7 +77,7 @@ public class AuthController {
 
 
     //ok test call
-    @RequestMapping(value="/forgotPassword",  method = RequestMethod.POST)
+    @RequestMapping(value= FOR_GOT_PASSWORD,  method = RequestMethod.POST)
     public ResponseEntity<String> forgotPassword(@RequestBody String email ) {
 
         try {
@@ -96,7 +96,7 @@ public class AuthController {
     }
 
     //ok test call
-    @RequestMapping(value="/fetchRestPassWordDetail/{id}",  method = RequestMethod.GET)
+    @RequestMapping(value= FETCH_REST_PASSWORD_DETAIL,  method = RequestMethod.GET)
     public ResponseEntity<Map> fetchRestPassWordDetail(@PathVariable("id") Long id ) {
 
         Doctor doctor1 = this.doctorRepository.findOne(id);
@@ -114,7 +114,7 @@ public class AuthController {
     }
 
     //ok test call
-    @RequestMapping(value="/updatePassword/{id}",  method = RequestMethod.PUT)
+    @RequestMapping(value= UP_DATE_PASSWORD,  method = RequestMethod.PUT)
     public ResponseEntity<String> updatePassword(@PathVariable("id") Long id , @RequestBody String password) {
 
         Doctor doctor1 = this.doctorRepository.findOne(id);

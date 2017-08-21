@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import static com.ballistic.hospital.dto.ActionConsts.*;
+
 
 /**
  * Created by Lycus 01 on 7/4/2017.
@@ -28,7 +30,7 @@ public class RegisterController {
     private Doctor doctor;
 
 
-    @RequestMapping(value="/register",  method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = REGISTER,  method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('ROLE_DBA')")
     public ResponseEntity<Doctor> registerUser(@RequestBody Doctor doctor ) {
 

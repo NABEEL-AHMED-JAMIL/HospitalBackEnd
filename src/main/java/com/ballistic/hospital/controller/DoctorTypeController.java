@@ -8,12 +8,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
+import static com.ballistic.hospital.dto.ActionConsts.*;
 import java.util.List;
 
 
 @RestController
-@RequestMapping("/docType")
+@RequestMapping(DOC_TYPE)
 public class DoctorTypeController {
 
     @Autowired
@@ -21,7 +21,7 @@ public class DoctorTypeController {
     @Autowired
     private Util util;
 
-    @RequestMapping(value="/addDoctorType", method = RequestMethod.POST)
+    @RequestMapping(value = ADD_DOCTOR_TYPE, method = RequestMethod.POST)
     @PreAuthorize("hasAnyRole('ROLE_DBA' ,'ROLE_ADMIN')")
     public ResponseEntity<DoctorType> addDoctorType(@RequestBody String doctorType) {
         this.util.showLine();
@@ -40,7 +40,7 @@ public class DoctorTypeController {
 
     }
 
-    @RequestMapping(value="/getAllDotorTypes", method = RequestMethod.GET)
+    @RequestMapping(value = GET_ALL_DOCTOR_TYPES, method = RequestMethod.GET)
     public ResponseEntity<List<DoctorType>> getAllDotorTypes() {
 
         List<DoctorType> doctorTypeList = doctorTypeRepository.findAll();
@@ -51,14 +51,14 @@ public class DoctorTypeController {
     }
 
 
-    @RequestMapping(value = "/deleteDoctorType/{id}",method = RequestMethod.DELETE)
+    @RequestMapping(value = DELETE_DOCTOR_TYPE, method = RequestMethod.DELETE)
     @PreAuthorize("hasAnyRole('ROLE_DBA' ,'ROLE_ADMIN')")
     public ResponseEntity<DoctorType> deleteDoctorType(@PathVariable("id") Long id) {
         this.doctorTypeRepository.delete(id);
         return new ResponseEntity<DoctorType>(HttpStatus.NO_CONTENT);
     }
 
-    @RequestMapping(value = "/getDoctorType/{id}",method = RequestMethod.GET)
+    @RequestMapping(value = GET_DOCTOR_TYPE, method = RequestMethod.GET)
     public ResponseEntity<DoctorType> getDoctorType(@PathVariable("id") Long id) {
 
         DoctorType doctorType = this.doctorTypeRepository.findOne(id);
@@ -66,7 +66,7 @@ public class DoctorTypeController {
     }
 
 
-    @RequestMapping(value = "/updateDoctorType/{id}",method = RequestMethod.PUT)
+    @RequestMapping(value = UPDATE_DOCTOR_TYPE, method = RequestMethod.PUT)
     @PreAuthorize("hasAnyRole('ROLE_DBA' ,'ROLE_ADMIN')")
     public ResponseEntity<DoctorType> updateDoctorType(@RequestBody DoctorType doctorType) {
         this.doctorTypeRepository.save(doctorType);

@@ -14,12 +14,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
+import static com.ballistic.hospital.dto.ActionConsts.*;
 import java.util.*;
 
 
 @RestController
-@RequestMapping("/patient")
+@RequestMapping(PATIENT)
 public class PatientController {
 
     @Autowired
@@ -32,7 +32,7 @@ public class PatientController {
     private Util util;
 
     // ok test call
-    @RequestMapping(value="/newPatient",  method = RequestMethod.POST, consumes = "application/json")
+    @RequestMapping(value = NEW_PATIENT,  method = RequestMethod.POST, consumes = "application/json")
     @PreAuthorize("hasAnyRole('ROLE_DBA' ,'ROLE_ADMIN')")
     public ResponseEntity<Patient> newPatient(@RequestBody PatientDTO patientDTO ) {
 
@@ -60,7 +60,7 @@ public class PatientController {
     }
 
     // ok test call
-    @RequestMapping(value="/getAllPatient", method = RequestMethod.GET)
+    @RequestMapping(value = GET_ALL_PATIENT, method = RequestMethod.GET)
     public ResponseEntity<List<Patient>> getAllPatients() {
         this.util.showLine();
         List<Patient> patientList = patientRepository.findAll();
@@ -71,8 +71,8 @@ public class PatientController {
 
 
     // need polish
-    @RequestMapping(value = "/getAllPatientNote/{mrNo}",method = RequestMethod.GET)
-    public ResponseEntity<List<Object>> getAllPatientNote(@PathVariable("mrNo") Long mrNo) {
+    @RequestMapping(value = GET_ALL_PATIENT_NOTES, method = RequestMethod.GET)
+    public ResponseEntity<List<Object>> getAllPatientNotes(@PathVariable("mrNo") Long mrNo) {
 
         Patient patient = patientRepository.findOne(mrNo);
         List<Note> noteList = patient.getNotes();
@@ -103,7 +103,7 @@ public class PatientController {
     }
 
     //
-    @RequestMapping(value = "/getPatient/{mrNo}",method = RequestMethod.GET)
+    @RequestMapping(value = GET_PATIENT, method = RequestMethod.GET)
     public ResponseEntity<Patient> getPatient(@PathVariable("mrNo") Long mrNo) {
         this.util.showLine();
         Patient patient = patientRepository.findOne(mrNo);
@@ -114,7 +114,7 @@ public class PatientController {
 
 
     // ok test
-    @RequestMapping(value = "/deletePatient/{mrNo}",method = RequestMethod.DELETE)
+    @RequestMapping(value = DELETE_PATIENT, method = RequestMethod.DELETE)
     @PreAuthorize("hasAnyRole('ROLE_DBA' ,'ROLE_ADMIN')")
     public ResponseEntity<Patient> deletePatient(@PathVariable("mrNo") Long mrNo) {
 
@@ -130,7 +130,7 @@ public class PatientController {
     }
 
 
-    @RequestMapping(value = "/updatePatient/{mrNo}",method = RequestMethod.PUT , produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = UPDATE_PATIENT, method = RequestMethod.PUT , produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAnyRole('ROLE_DBA' ,'ROLE_ADMIN')")
     public ResponseEntity<Patient> updatePatient(@PathVariable("mrNo") long mrNo, @RequestBody Patient patient) {
 

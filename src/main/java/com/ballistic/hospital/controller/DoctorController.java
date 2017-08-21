@@ -6,19 +6,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import static com.ballistic.hospital.dto.ActionConsts.*;
 import java.util.List;
 
 
 @RestController
-@RequestMapping("/doctor")
+@RequestMapping(DOCTOR)
 public class DoctorController {
 
     @Autowired
     private DoctorRepository doctorRepository;
 
 
-    @RequestMapping(value = "/getAllDoctor" ,method = RequestMethod.GET)
+    @RequestMapping(value = GET_ALL_DOCTOR, method = RequestMethod.GET)
     public ResponseEntity<List<Doctor>> getAllDoctor() {
 
         List<Doctor> doctorList = doctorRepository.findAll();
@@ -28,15 +28,12 @@ public class DoctorController {
         return new ResponseEntity<List<Doctor>>(doctorList, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/getDoctor",method = RequestMethod.GET)
+    @RequestMapping(value = GET_DOCTOR, method = RequestMethod.GET)
     public ResponseEntity<Doctor> getDoctor(@RequestBody Doctor doctor) {
 
         Doctor doctor1 = doctorRepository.findByUsername(doctor.getUsername());
-        //System.out.print(doctor1.toString());
         if(doctor1 == null ){
-            //
             return new ResponseEntity<Doctor>(HttpStatus.NOT_FOUND);
-
         }
         else{
             return new ResponseEntity<Doctor>(doctor1,HttpStatus.OK);
