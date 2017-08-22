@@ -2,7 +2,6 @@ package com.ballistic.hospital.dto;
 
 import com.ballistic.hospital.entity.Doctor;
 
-
 // this class same like a dto
 public class DoctorTokenState {
     //

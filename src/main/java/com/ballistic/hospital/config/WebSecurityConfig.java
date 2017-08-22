@@ -73,31 +73,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 //        restAuthenticationEntryPoint
-        http.httpBasic().realmName(REALM).and()
-            .csrf().ignoringAntMatchers(LOGIN).csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).
-            and().sessionManagement().sessionCreationPolicy( SessionCreationPolicy.STATELESS ).and()
-            .exceptionHandling().authenticationEntryPoint( getBasicAuthEntryPoint() ).and()
-            .addFilterBefore(jwtAuthenticationTokenFilter(), BasicAuthenticationFilter.class)
-            .authorizeRequests()
-            .antMatchers(HttpMethod.POST, "/docType/addDoctorType").hasAnyRole("ROLE_DBA","ROLE_ADMIN").
-            antMatchers(HttpMethod.DELETE, "/docType/deleteDoctorType/**").hasAnyRole("ROLE_DBA","ROLE_ADMIN").
-            antMatchers(HttpMethod.PUT, "/docType/updateDoctorType/**").hasAnyRole("ROLE_DBA","ROLE_ADMIN").
-            antMatchers("/note/newNote/**").hasAnyRole("ROLE_DBA","ROLE_ADMIN").
-            antMatchers("/note/deleteNote/**").hasAnyRole("ROLE_DBA","ROLE_ADMIN").
-            antMatchers("/note/updateNote/**").hasAnyRole("ROLE_DBA","ROLE_ADMIN").
-            antMatchers("/patient/newPatient").hasAnyRole("ROLE_DBA","ROLE_ADMIN").
-            antMatchers(HttpMethod.DELETE, "/patient/**").hasAnyRole("ROLE_DBA","ROLE_ADMIN").
-            antMatchers(HttpMethod.PUT, "/patient/**").hasAnyRole("ROLE_DBA","ROLE_ADMIN").
-            antMatchers(HttpMethod.POST, "/register").hasAnyRole("ROLE_DBA").and()
-            .formLogin()
-            .loginPage(LOGIN)
-            .successHandler(authenticationSuccessHandler)
-            .failureHandler(authenticationFailureHandler).and()
-            .logout()
-            .logoutRequestMatcher(new AntPathRequestMatcher(LOGOUT))
-            .logoutSuccessHandler(logoutSuccess)
-            .deleteCookies(TOKEN_COOKIE).and()
-             .csrf().disable().cors().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.httpBasic().realmName(REALM).and().csrf().
+                ignoringAntMatchers(LOGIN).csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and().
+                sessionManagement().sessionCreationPolicy( SessionCreationPolicy.STATELESS ).and().exceptionHandling().
+                authenticationEntryPoint( getBasicAuthEntryPoint() ).and().
+                addFilterBefore(jwtAuthenticationTokenFilter(), BasicAuthenticationFilter.class).
+                authorizeRequests().antMatchers(HttpMethod.POST, "/docType/addDoctorType").hasAnyRole("ROLE_DBA","ROLE_ADMIN").
+                antMatchers(HttpMethod.DELETE, "/docType/deleteDoctorType/**").hasAnyRole("ROLE_DBA","ROLE_ADMIN").
+                antMatchers(HttpMethod.PUT, "/docType/updateDoctorType/**").hasAnyRole("ROLE_DBA","ROLE_ADMIN").
+                antMatchers(HttpMethod.POST, "/note/newNote/**").hasAnyRole("ROLE_DBA","ROLE_ADMIN").
+                antMatchers(HttpMethod.DELETE,"/note/deleteNote/**").hasAnyRole("ROLE_DBA","ROLE_ADMIN").
+                antMatchers(HttpMethod.PUT, "/note/updateNote/**").hasAnyRole("ROLE_DBA","ROLE_ADMIN").
+                antMatchers(HttpMethod.POST, "/patient/newPatient").hasAnyRole("ROLE_DBA","ROLE_ADMIN").
+                antMatchers(HttpMethod.DELETE, "/patient/**").hasAnyRole("ROLE_DBA","ROLE_ADMIN").
+                antMatchers(HttpMethod.PUT, "/patient/**").hasAnyRole("ROLE_DBA","ROLE_ADMIN").
+                antMatchers(HttpMethod.POST, "/register").hasAnyRole("ROLE_DBA").and().formLogin().
+                loginPage(LOGIN).successHandler(authenticationSuccessHandler).failureHandler(authenticationFailureHandler).and().
+                logout().logoutRequestMatcher(new AntPathRequestMatcher(LOGOUT)).logoutSuccessHandler(logoutSuccess).
+                deleteCookies(TOKEN_COOKIE).and().csrf().disable().cors().and().
+                sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
     }
 
