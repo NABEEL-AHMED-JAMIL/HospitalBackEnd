@@ -18,7 +18,14 @@
 // private Set<Object> set;
 // private Map<Object, Object> map;
 // private Properties props;  -----> same like key-value paire
-
+// @Mandatory
+// public void setEmployee(Employee employee) {
+//  this.employee = employee;
+// }
+// @Required
+// public void setId(Long id) {
+//  this.id = id;
+// }
 
 package com.ballistic.hospital.config;
 
