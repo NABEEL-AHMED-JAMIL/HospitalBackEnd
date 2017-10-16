@@ -1,7 +1,11 @@
 // @Configuration that indicates that the class can be used by the Spring IoC container as a source of bean definitions. 
 // @Bean(name="helloWorldBean")
-//    public HelloWorldService helloWorldService() {
+// public HelloWorldService helloWorldService() {
 //        return new HelloWorldService();  }
+// @Import annotation is used to load the two configuration classes in one class.
+// @Configuration
+// @Import({HelloConfig.class, GoodbyeConfig.class})
+
 
 package com.ballistic.hospital.config;
 
