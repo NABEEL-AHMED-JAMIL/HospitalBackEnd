@@ -66,3 +66,5 @@ public class MemoryMessageRepository implements MessageReposiotry {
 
 	
 }
+## Crose Origin
+@CrossOrigin(origins = "http://localhost:4200")
