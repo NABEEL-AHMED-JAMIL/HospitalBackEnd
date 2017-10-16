@@ -4,7 +4,20 @@
 //        return new HelloWorldService();  }
 // @Import annotation is used to load the two configuration classes in one class.
 // @Configuration
-// @Import({HelloConfig.class, GoodbyeConfig.class})
+// @Import({ HelloConfig.class, GoodbyeConfig.class })
+// Inversion of Control (IoC) principle, that is also known as Dependency Injection (DI)  ---> setter/getter @autowaire
+// private Foo foo;
+// @Autowired
+// public void setFoo(Foo foo){
+//   this.foo = foo;
+// }
+// @Transactional
+// Spring Bean Scopes   ----> singleton, singleton, request, session, global session
+// @Scope("prototype","singlton")
+// private List<Object> list;
+// private Set<Object> set;
+// private Map<Object, Object> map;
+// private Properties props;  -----> same like key-value paire
 
 
 package com.ballistic.hospital.config;
