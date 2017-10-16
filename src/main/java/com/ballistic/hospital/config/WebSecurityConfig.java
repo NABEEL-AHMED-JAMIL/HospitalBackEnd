@@ -1,3 +1,4 @@
+// @Configuration that indicates that the class can be used by the Spring IoC container as a source of bean definitions. 
 package com.ballistic.hospital.config;
 
 import com.ballistic.hospital.security.auth.*;
