@@ -72,3 +72,48 @@ public class MemoryMessageRepository implements MessageReposiotry {
 Remark: Instead of using @EnableAutoConfiguration, @ComponentScan & @Configuration on a class, you could just use only @SpringBootApplication which is equivalent to using @Configuration, @EnableAutoConfiguration and @ComponentScan with their
 default attributes.
 ```
+```
+-----------------------------------------------------
+| How to work with "Local and Remote" and "Jar and Web" together  |
+-----------------------------------------------------
+1) packagin name ---> <packaging>${artifact-packaging}</packaging>
+2) project name -----> <name>${project-artifactId}</name>
+3) create the profile
+<profiles>
+	<profile>
+		<id>local</id>
+		<activation>	
+		      <activeByDefault>true</activeByDefault>
+		</activaation>
+		<properties>
+		      <artifact-packaging>jar</artifact-packaging>
+		</properties>
+        </profile>
+	<profile>
+		<id>remote</id>
+		<properties>
+			<artifact-packaging>war</artifact-packaging>
+		</properties>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-tomcat</artifactId>
+				<scope>provided</scope>
+			</dependency>
+		</dependencies>
+		<build>
+			<plugins>
+				<plugin>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+					<version>1.4.3.RELEASE</version>
+					<configuration>
+						<finalName>${project.artifactId}</finalName>
+					</configuration>
+				</plugin>
+			</plugins>
+		</build>
+	</profile>	
+</profiles>
+
+```
