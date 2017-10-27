@@ -68,3 +68,7 @@ public class MemoryMessageRepository implements MessageReposiotry {
 }
 ## Crose Origin
 @CrossOrigin(origins = "http://localhost:4200")
+```
+Remark: Instead of using @EnableAutoConfiguration, @ComponentScan & @Configuration on a class, you could just use only @SpringBootApplication which is equivalent to using @Configuration, @EnableAutoConfiguration and @ComponentScan with their
+default attributes.
+```
