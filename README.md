@@ -117,3 +117,32 @@ default attributes.
 </profiles>
 
 ```
+### JSON And XML Rest Service used the Below dependencies
+```
+1) if you want to used the xml dependency you should add the dependency like
+<dependency>
+    <groupId>com.fasterxml.jackson.dataformat</groupId>
+    <artifactId>jackson-dataformat-xml</artifactId>
+</dependency>
+Note:- data type must be like "‘Accept’ header with value ‘text/xml’ or ‘application/xml’."
+```
+### Sending back the value on Url
+```
+// -------------------Create a User-------------------------------------------
+ 
+    @RequestMapping(value = "/user/", method = RequestMethod.POST)
+    public ResponseEntity<?> createUser(@RequestBody User user, UriComponentsBuilder ucBuilder) {
+        logger.info("Creating User : {}", user);
+ 
+        if (userService.isUserExist(user)) {
+            logger.error("Unable to create. A User with name {} already exist", user.getName());
+            return new ResponseEntity(new CustomErrorType("Unable to create. A User with name " + 
+            user.getName() + " already exist."),HttpStatus.CONFLICT);
+        }
+        userService.saveUser(user);
+ 
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(ucBuilder.path("/api/user/{id}").buildAndExpand(user.getId()).toUri());
+        return new ResponseEntity<String>(headers, HttpStatus.CREATED);
+    }
+```
