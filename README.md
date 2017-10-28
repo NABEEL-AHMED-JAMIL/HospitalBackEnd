@@ -15,7 +15,7 @@ public class MemoryMessageRepository implements MessageReposiotry {
 	// It is thread safe without synchronizing the whole map.
 	// Reads can happen very fast while write is done with a lock.
 	private final Map<String, Message> messages = new ConcurrentHashMap<String, Message>();
-	
+	//@Cacheable(value="products", key="#name", condition="#name!='HTC'" , unless="#result==null")
 	@Cacheable("messages")
 	public Message getMessage(String title) {
 		LOG.info("Fetching messages");
