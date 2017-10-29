@@ -146,3 +146,17 @@ Note:- data type must be like "‘Accept’ header with value ‘text/xml’ or 
         return new ResponseEntity<String>(headers, HttpStatus.CREATED);
     }
 ```
+
+### User the Credentials class
+```
+public class Credentials {
+     private String username;
+     private String password;
+     
+     public Credentials(String username, String password){
+          this.username = username;
+	  this.password = password;
+     }
+     // getter and setter.... toString
+}
+```
