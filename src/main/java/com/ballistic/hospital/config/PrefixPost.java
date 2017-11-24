@@ -1,4 +1,4 @@
-package com.ballistic.hospital.config
+package com.ballistic.hospital.config;
 
 public class PrefixPost {
 	
@@ -6,7 +6,7 @@ public class PrefixPost {
 	private String suffixProp;
 	
 	public String getPrefixProp() {
-		return prefixProp
+		return prefixProp;
 	}
 	
 	public void setPrefixProp(String prefixProp) {
