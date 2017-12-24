@@ -43,7 +43,6 @@ public class MemoryMessageRepository implements MessageReposiotry {
 		save(new Message("Appointment", "Remeber the milk!"));
 	}
   
-```
 private static final List<String> SAMPLE_COUNTRY_CODES = Arrays.asList("AF", "AX",
 	"AL", "DZ", "AS", "AD", "AO", "AI", "AQ", "AG", "AR", "AM", "AW", "AU", "AT",
 	"AZ", "BS", "BH", "BD", "BB", "BY", "BE", "BZ", "BJ", "BM", "BT", "BO", "BQ",
