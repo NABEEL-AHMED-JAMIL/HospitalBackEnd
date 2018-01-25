@@ -14,13 +14,11 @@ public class CaptchaSettings {
   private String secret;
   private String site;
 
-  public CaptchaSettings() {
-  }
+  public CaptchaSettings() {}
 
   public String getUrl() {
     return url;
   }
-
   public void setUrl(String url) {
     this.url = url;
   }
@@ -28,14 +26,18 @@ public class CaptchaSettings {
   public String getSecret() {
     return secret;
   }
-
   public void setSecret(String secret) {
     this.secret = secret;
   }
 
   public String getSite() { return site; }
-
   public void setSite(String site) {
     this.site = site;
+  }
+
+  @Override
+  public String toString() {
+    return "CaptchaSettings {" + "url='" + url + '\'' + ", secret='" + secret + '\'' +
+            ", site='" + site + '\'' + '}';
   }
 }

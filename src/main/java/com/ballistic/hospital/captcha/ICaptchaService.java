@@ -6,8 +6,7 @@ package com.ballistic.hospital.captcha;
 public interface ICaptchaService {
 
   void processResponse(final String response) throws ReCaptchaInvalidException;
-
   String getReCaptchaSite();
-
   String getReCaptchaSecret();
+  String getReCaptchaUrl();
 }

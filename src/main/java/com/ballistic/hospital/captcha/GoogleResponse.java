@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.*;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+
 /**
  * Created by Nabeel on 8/23/2017.
  */
@@ -22,7 +23,8 @@ public class GoogleResponse {
   @JsonProperty("error-codes")
   private ErrorCode[] errorCodes;
 
-  static enum ErrorCode {
+  enum ErrorCode {
+
     MissingSecret, InvalidSecret, MissingResponse, InvalidResponse;
 
     private static Map<String, ErrorCode> errorsMap = new HashMap<String, ErrorCode>(4);
@@ -45,7 +47,6 @@ public class GoogleResponse {
   public boolean isSuccess() {
     return success;
   }
-
   @JsonProperty("success")
   public void setSuccess(boolean success) {
     this.success = success;
@@ -55,7 +56,6 @@ public class GoogleResponse {
   public String getChallengeTs() {
     return challengeTs;
   }
-
   @JsonProperty("challenge_ts")
   public void setChallengeTs(String challengeTs) {
     this.challengeTs = challengeTs;
@@ -65,7 +65,6 @@ public class GoogleResponse {
   public String getHostname() {
     return hostname;
   }
-
   @JsonProperty("hostname")
   public void setHostname(String hostname) {
     this.hostname = hostname;
@@ -75,12 +74,10 @@ public class GoogleResponse {
   public void setErrorCodes(ErrorCode[] errorCodes) {
     this.errorCodes = errorCodes;
   }
-
   @JsonProperty("error-codes")
   public ErrorCode[] getErrorCodes() {
     return errorCodes;
   }
-
   @JsonIgnore
   public boolean hasClientError() {
     final ErrorCode[] errors = getErrorCodes();
@@ -101,7 +98,8 @@ public class GoogleResponse {
 
   @Override
   public String toString() {
-    return "GoogleResponse{" + "success=" + success + ", challengeTs='" + challengeTs + '\'' + ", hostname='" + hostname + '\'' + ", errorCodes=" + Arrays.toString(errorCodes) + '}';
+    return "GoogleResponse {" + "success=" + success + ", challengeTs='" + challengeTs +
+            '\'' + ", hostname='" + hostname + '\'' + ", errorCodes=" + Arrays.toString(errorCodes) + '}';
   }
 
 }

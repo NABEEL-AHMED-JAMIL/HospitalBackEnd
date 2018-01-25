@@ -1,16 +1,21 @@
 app:
   name: hospital back-end
 
+# JWT : JSON WEB TOKEN PROPERTIES
 jwt:
   header: Authorization
   expires_in: 600 # 10 minutes
   secret: medicsi786%
   cookie: AUTH-TOKEN
+  route:
+    authentication:
+      path: auth
+      refresh: refresh
 
 # reCaptch
 google:
   recaptcha:
     key:
-      url: "https://www.google.com/recaptcha/api/siteverify";
-      secret: "6LcBDToUAAAAAHBAQAX5GnGtcCVNeVfD991FCSNC";
-      site: "6LcBDToUAAAAAPISZfty0xdxYLPnD_YH3I2Pod8l"
+      url: https://www.google.com/recaptcha/api/siteverify;
+      secret: 6LcBDToUAAAAAHBAQAX5GnGtcCVNeVfD991FCSNC;
+      site: 6LcBDToUAAAAAPISZfty0xdxYLPnD_YH3I2Pod8l
