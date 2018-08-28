@@ -199,3 +199,179 @@ spring.jpa.hibernate.naming-strategy = org.hibernate.cfg.ImprovedNamingStrategy
 # The SQL dialect makes Hibernate generate better SQL for the chosen database
 spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQL5Dialect
 ```
+
+### Linux Imp
+
+https://theyellownumber.svn.cvsdude.com/admaxim/AdMaximRep/trunk/
+https://theyellownumber.svn.cvsdude.com/admaximrepo/AdServerRepo/trunk
+https://theyellownumber.svn.cvsdude.com/admaxim/adserverbranches/AdServerR008.7
+
+1:  # ad
+2:  # tl
+3:  # ad | grep -i error
+4:  # ad | grep -i exception
+5:  # ad | grep -i monitor
+
+https://www.computerhope.com/unix/ucut.htm
+https://www.loggly.com/ultimate-guide/analyzing-linux-logs/
+
+grep -o 'XsltProcessor has empty XSL file location map' adserver.log | wc -l
+grep -20 'NullPointerException' adserver.log
+ad | grep -i '{OpenRTB Bid Request Mapper}'
+java.lang.NullPointerException
+grep "MongoException" adserver.log | sort | uniq -c
+grep "MongoException" adserver.log | sort | uniq -c | sort -r
+grep "MongoException" adserver.log | cut -d ':' -f 7 | sort | uniq -c | sort -r
+cut -f 2-4 data.txt
+grep "UserDemographicManager" adserver.log | sort | uniq -c
+cl
+sudo -i
+cd /opt/tomcat/bin
+./shutdown.sh
+pkill -9 java
+rm -rf /server/*
+./startup.sh
+
+
+
+ssh -I D:\nabeel_pem\nabeel.pem nabeel@172.30.11.92
+
+RTB-fr-2-Node-1::(ssh -I D:\nabeel_pem\nabeel.pem -p 6616 nabeel@172.30.10.244)
+
+
+ad|grep -i 'com.admaxim.adserver.adprovider.util.AdProviderHelper'
+
+0) ad ---> checked Ad Server Log ---> No Erro
+heroku logs --tail|grep 'Request No#'
+
+[25/May/2018:05:02:38,240 +0000] ERROR [partnerUIDLookup-77] com.admaxim.userprofile.dao.mongodb.PartnerUIDMapDAO  - MongoException: Value not present in this db 5 :in 404 ms: com.mongodb.MongoInterruptedException: Interrupted acquiring a permit to retrieve an item from the pool
+ 
+	------------------------------------------
+			No Error -- POOL
+	------------------------------------------
+	[29/Mar/2018:06:12:21,936 +0000] INFO  [http-80-70] com.admaxim.adserver.model.AdManager  - --PERF-- LocationRead : 0ms.
+	[29/Mar/2018:06:12:21,938 +0000] INFO  [http-80-18] com.admaxim.adserver.model.AdManager  - --PERF-- LocationRead : 0ms.
+	[29/Mar/2018:06:12:21,964 +0000] INFO  [http-80-18] com.admaxim.adserver.model.AdManager  - --PERF-- LocationRead : 0ms.
+
+	--------------------------------------------------
+	[29/Mar/2018:06:12:21,635 +0000] WARN  [http-80-35] com.admaxim.budget.CappingManager  - Removed ad: cID-74357 adGroupId--1 aID-87451 due to demographic Impression distribution Cap for GN_1 Daily cap 7000 Total cap 1000000 total count for GN : 211989.0 distribution for GN_1 : 102860.0 config percent for GN_1 : 25 remaining factor 0.788011 learning percent 20 variance 10
+
+	--------------------------------------------------
+	--------------------------------------------------
+	!). ad|grep ERROR
+	[29/Mar/2018:06:13:17,805 +0000] ERROR [http-80-35] com.admaxim.adserver.model.AdManager  - Site Disabled to serve: 6665_539463604
+	[29/Mar/2018:06:13:19,055 +0000] ERROR [http-80-7] com.admaxim.adserver.model.AdManager  - PublisherSite null from cache :Invalid siteID: 6665_537260058
+	[29/Mar/2018:06:13:19,357 +0000] ERROR [http-80-69] com.admaxim.adserver.model.AdManager  - Site Disabled to serve: 6665_539895324
+
+	!!). ad|grep ERROR|grep -vE 't find ad for  Site Id|NOT CLASSIFIED NEW SITE|Site Disabled to serve'
+	[29/Mar/2018:06:15:47,933 +0000] ERROR [partnerUIDLookup-91] com.admaxim.userprofile.dao.mongodb.PartnerUIDMapDAO  - MongoException: Value not present in this db 5 :in 11 ms: com.mongodb.MongoInterruptedException: Interrupted acquiring a permit to retrieve an item from the pool
+	[29/Mar/2018:06:16:00,935 +0000] ERROR [partnerUIDLookup-76] com.admaxim.userprofile.dao.mongodb.PartnerUIDMapDAO  - MongoException: Value not present in this db 3 :in 18 ms: com.mongodb.MongoInterruptedException: Interrupted acquiring a permit to retrieve an item from the pool
+	[29/Mar/2018:06:16:00,934 +0000] ERROR [partnerUIDLookup-73] com.admaxim.userprofile.dao.mongodb.PartnerUIDMapDAO  - MongoException: Value not present in this db 1 :in 18 ms: com.mongodb.MongoInterruptedException: Interrupted acquiring a permit to retrieve an item from the pool
+	[29/Mar/2018:06:16:02,891 +0000] ERROR [partnerUIDLookup-94] com.admaxim.userprofile.dao.mongodb.PartnerUIDMapDAO  - MongoException: Value not present in this db 4 :in 17 ms: com.mongodb.MongoInterruptedException: Interrupted acquiring a permit to retrieve an item from the pool
+
+	
+   !!!). ad|grep -i exception
+    !v). tl|grep -vE 'available|HTTP/1.1 204|HTTP/1.1 200'
+   
+	   Nothing showing up on monitor 
+	  
+   v). tl|grep -vE 'available'|awk '{if($11>100) print $0}' || tl|grep -vE 'available|HTTP/1.1 204'|awk '{if($11>100) print $0}'
+   
+   v!). ad|grep 'MongoDBMonitor'
+   !) tail InitializationLog.txt
+	[28/Mar/2018:06:38:25] - End of initialization : SiteListCacheTime Taken: 1 ms
+	[28/Mar/2018:06:38:33] - Start initialization : SiteProfileRecordingTask for publisherId: 6665 number of siteProfile size is: 1
+
+   !!) tail localhost_access_log.2018-03-29.txt   
+	172.31.25.73 - - [28/Mar/2018:07:03:58 +0000] POST /adserver/openxBidder HTTP/1.1 204 - 146 application/json
+	172.31.21.2 - - [28/Mar/2018:07:03:58 +0000] POST /adserver/openxBidder HTTP/1.1 204 - 171 application/json
+	
+--------------------------
+RTB 1=> ironsourceBidder
+RTB-2 => teadsBidder, unityBidder
+RTB-3 => adexBidder
+RTB-4 => axonixBidder
+RTB-5 => mobfoxBidder 
+RTB-7 => inneractiveBidder
+---------------------------
+RTB-FR-1 => adexBidder
+RTB-FR-2 => openxBidder
+
+# Linux Cmd
+1) man ==> Manual pages
+2) conf ==> configfile
+3) pwd ==> show the current directory
+4) cd ==> change your current directory
+   1) cd /user  ==> move to next dir
+   2) cd ==> back to home dir
+   3) cd .. ==> parent directory
+5) ls ==> list the contents of a directory with "ls"
+6) ls -a ==> show all file also including hidden file.
+7) tail ==> tail command to display the last few lines of a text file.
+8) cat ==> The most common use of cat is to read the contents of files,
+9) grep ==> filter a certain string
+10) -i ==> tells the system to search for a file unspecific of capitalization
+
+
+
+tail -f 
+taill -100
+grep -e/E/i ..etc
+
+sudo -i
+ls
+tail -f
+vi
+vE
+
+
+
+ssh -I admaximtest.pem nabeel@ec2-52-66-65-66.ap-south-1.compute.amazonaws.com
+This week only do 
+1) Monodb + ElasticSearch + kafka (Only read)
+-------------------
+Kafka + Stream
+-------------------
+https://docs.spring.io/spring-data/mongodb/docs/current/reference/html/
+https://docs.mongodb.com/manual/tutorial/getting-started/
+-------------------
+https://www.elastic.co/guide/index.html
+https://docs.spring.io/spring-data/elasticsearch/docs/current/reference/html/
+
+
+username:- nabeel.amd93@gmail.com
+password:- P@kistan
+url:- https://dashboard.heroku.com
+
+
+https://www.youtube.com/watch?v=zabc2uE0zZw
+
+
+1) pwd => show the current directory
+2) ls => show the contents of a directory with "ls"
+3) ls -a => show all hidden file 
+4) cd => used for move to directory (example:- cd filename, cd file\name)
+5) mkdir&rmdir => mkdir mean create the new folder, while rmdir mean remove the folder
+6) rm => rm command used to delete files or directory ('rm hello.py', for directory used 'rm -r folder')
+7) touch => used command for create file(touch hello.py)
+8) cp => copy file through command line, takes two argument(cp file/path destination) => example (cp hello.py /hello/pakistan/)
+9) cat => cat used to read the contents of file
+10) tail => command used to display the last 10 line
+11) head => command used to display the first 10 line
+11) grep => filter the certain string
+12) -i => case in-sensitive help
+13) *,+ => *signifies zero, one, more while +signifies one or more
+---------------------------------------
+BRE: Basic Regular Expressions -G
+ERE: Extended Regular Expressions -E
+PRCE: Perl Regular Expressions -P
+----------------------------------------
+read all content of file
+1) cat filename.txt
+2) grep -E 'i|a' filename.txt
+3) grep -E -i 'i|a' filename.txt
+4) grep -E 't*' filename.txt
+5) grep -E 't+' filename.txt
+----------------------------------------
+
+
